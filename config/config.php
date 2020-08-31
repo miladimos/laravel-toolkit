@@ -15,4 +15,17 @@ return [
 
     'directory' => 'Helpers',
 
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers File
+    |--------------------------------------------------------------------------
+    |
+    | By default this package will Names helpers file "helpers.php".
+    |  However, you may choose to override this name.
+    |
+    */
+
+    'file' => 'helpers',
+
 ];
