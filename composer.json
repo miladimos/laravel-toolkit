@@ -18,7 +18,10 @@
     "autoload": {
         "psr-4": {
             "Miladimos\\Helpers\\": "src/"
-        }
+        },
+        "files": [
+            "src/Helpers/helpers.php"
+        ]
     },
     "extra": {
         "laravel": {

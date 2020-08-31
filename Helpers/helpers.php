@@ -61,6 +61,12 @@ if(!function_exists('username')) {
     }
 }
 
+if(!function_exists('email')) {
+    function email($guard = 'web') {
+        return auth($guard)->user()->email;
+    }
+}
+
 if(!function_exists('generateToken')) {
     function generateToken()
     {
