@@ -25,12 +25,12 @@ class HelpersServiceProvider extends ServiceProvider
     {
         if($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '../config/config.php' => config_path('helpers.php'),
-            ], 'config');
+                __DIR__ . '/../config/config.php' => config_path('helpers.php'),
+            ], 'helpers-config');
 
             $this->publishes([
                 __DIR__ . '/Helpers/helpers.php' => app_path("Helpers/helpers.php"),
-            ], 'helpers');
+            ], 'helpers-file');
         }
 
     }
