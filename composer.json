@@ -1,0 +1,32 @@
+{
+    "name": "miladimos/laravel-helpers",
+    "description": "a package for collections of custom helpers",
+    "homepage": "https://github.com/miladimos/laravel-helpers",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "laravel-package",
+        "laravel-helpers"
+    ],
+    "authors": [
+        {
+            "name": "miladimos",
+            "email": "message.tome1331@gmail.com",
+            "role": "maintaner"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Miladimos\\Helpers\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Miladimos\\Helpers\\HelpersServiceProvider"
+            ]
+        }
+    },
+    "require": {},
+    "license": "MIT"
+}
