@@ -13,7 +13,7 @@ class HelpersServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__ . "/../config/config.php", 'helpers');
     }
 
     /**
@@ -25,7 +25,7 @@ class HelpersServiceProvider extends ServiceProvider
     {
         if($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '../config/config.php' => config_path('config.php'),
+                __DIR__ . '../config/config.php' => config_path('helpers.php'),
             ], 'config');
 
             $this->publishes([
@@ -33,11 +33,12 @@ class HelpersServiceProvider extends ServiceProvider
             ], 'helpers');
         }
 
-//
+    }
+
+    //
 //        if (file_exists(base_path('Helpers/helpers.php'))) {
 //            require_once(base_path('Helpers/helpers.php'));
 //        }
-    }
 
 //    public function registerHelpers()
 //    {

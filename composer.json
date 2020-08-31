@@ -6,13 +6,18 @@
     "keywords": [
         "laravel",
         "laravel-package",
-        "laravel-helpers"
+        "laravel-helpers",
+        "laravel support",
+        "lumen packages",
+        "laravel packages",
+        "lumen support"
     ],
     "authors": [
         {
             "name": "miladimos",
             "email": "message.tome1331@gmail.com",
-            "role": "maintaner"
+            "role": "maintaner",
+            "homepage": "https://github.com/miladimos"
         }
     ],
     "autoload": {
