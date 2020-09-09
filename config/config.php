@@ -10,7 +10,7 @@ return [
     |
     | By default this package will look in the application's 'Helpers'
     | directory. However, you may choose to override the directory.
-    |
+    | namespace => App\$directory
     */
 
     'directory' => 'Helpers',
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'file' => 'milad',
+    'file' => 'helpers',
 
 
 ];
