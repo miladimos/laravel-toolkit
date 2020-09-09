@@ -23,22 +23,25 @@ class HelpersServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerPublishes();
+    }
+
+    protected function registerPublishes() {
         if($this->app->runningInConsole()) {
+
             $this->publishes([
                 __DIR__ . '/../config/config.php' => config_path('helpers.php'),
             ], 'helpers-config');
 
+
+            $helperFile = config('helpers.file');
             $this->publishes([
-                __DIR__ . '/Helpers/helpers.php' => app_path("Helpers/helpers.php"),
+//                __DIR__ . '/Helpers/helpers.php' => app_path("Helpers/helpers.php"),
+                __DIR__ . '/Helpers/helpers.php' => app_path("Helpers/$helperFile.php"),
             ], 'helpers-file');
+
         }
-
     }
-
-    //
-//        if (file_exists(base_path('Helpers/helpers.php'))) {
-//            require_once(base_path('Helpers/helpers.php'));
-//        }
 
 //    public function registerHelpers()
 //    {
