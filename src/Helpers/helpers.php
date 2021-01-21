@@ -9,6 +9,88 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
+
+// Start Users / Auth Helpers
+
+if (!function_exists("getUserIP")) {
+    function getUserIP()
+    {
+        $client  = @$_SERVER['HTTP_CLIENT_IP'];
+        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+        $remote  = $_SERVER['REMOTE_ADDR'];
+
+        if (filter_var($client, FILTER_VALIDATE_IP)) {
+            $ip = $client;
+        } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
+            $ip = $forward;
+        } else {
+            $ip = $remote;
+        }
+
+        return $ip;
+    }
+}
+
+
+if (!function_exists('is_user_online')) {
+    function is_user_online($user_id)
+    {
+        if (cache()->has('user-is-online-' . $user_id))
+            return true;
+        else
+            return false;
+    }
+}
+
+if (!function_exists('user')) {
+    function user($guard = 'web')
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+
+        return auth($guard)->user();
+    }
+}
+
+if (!function_exists('id')) {
+    function id($guard = 'web')
+    {
+        return auth($guard)->id();
+    }
+}
+
+if (!function_exists('username')) {
+    function username($guard = 'web')
+    {
+        return auth($guard)->user()->username;
+    }
+}
+
+if (!function_exists('email')) {
+    function email($guard = 'web')
+    {
+        return auth($guard)->user()->email;
+    }
+}
+
+/**
+ * Return true if current user is logged, otherwise return false.
+ * @return bool
+ */
+function userIsLogged($guard = 'web'): bool
+{
+    if (Auth::guard($guard)->guest()) {
+        return false;
+    }
+
+    return true;
+}
+
+
+// End Users / Auth Helpers
+
+
 if (!function_exists("isActive")) {
     function isActive($key, $class = 'active')
     {
@@ -37,22 +119,6 @@ if (!function_exists("convertToWestern")) {
     }
 }
 
-function getUserIP()
-{
-    $client  = @$_SERVER['HTTP_CLIENT_IP'];
-    $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-    $remote  = $_SERVER['REMOTE_ADDR'];
-
-    if (filter_var($client, FILTER_VALIDATE_IP)) {
-        $ip = $client;
-    } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
-        $ip = $forward;
-    } else {
-        $ip = $remote;
-    }
-
-    return $ip;
-}
 
 if (!function_exists("createOPTCode")) {
     function createOPTCode()
@@ -68,43 +134,6 @@ if (!function_exists("createEmailToken")) {
     }
 }
 
-if (!function_exists('is_user_online')) {
-    function is_user_online($user_id)
-    {
-        if (cache()->has('user-is-online-' . $user_id))
-            return true;
-        else
-            return false;
-    }
-}
-
-if (!function_exists('user')) {
-    function user($guard = 'web')
-    {
-        return auth($guard)->user();
-    }
-}
-
-if (!function_exists('id')) {
-    function id($guard = 'web')
-    {
-        return auth($guard)->id();
-    }
-}
-
-if (!function_exists('username')) {
-    function username($guard = 'web')
-    {
-        return auth($guard)->user()->username;
-    }
-}
-
-if (!function_exists('email')) {
-    function email($guard = 'web')
-    {
-        return auth($guard)->user()->email;
-    }
-}
 
 if (!function_exists('generateToken')) {
     function generateToken()
@@ -142,44 +171,6 @@ if (!function_exists('decodeBase64File')) {
 }
 
 /**
- * Returns the hashed string for the given id
- *
- * @param integer $id id which has to be encoded
- *
- * @return string
- */
-function encode(int $id): string
-{
-    return Hashids::encode($id);
-}
-
-/**
- * Returns the integer value for the given hashed string
- *
- * @param string $code code which has to be decoded
- *
- * @return integer
- */
-function decode(string $code): int
-{
-    return collect(Hashids::decode($code))->first();
-}
-
-/**
- * Returns the status options
- *
- * @return array
- */
-function getStatusOptions(): array
-{
-    return [
-        '1' => 'Enabled',
-        '0' => 'Disabled'
-    ];
-}
-
-
-/**
  * Helpers to Validate some data with laravel validator.
  *
  * @param string|array $fields
@@ -200,101 +191,19 @@ function validate($fields, $rules): bool
     return Validator::make($fields, $rules)->passes();
 }
 
-/**
- * getLocale
- * @return string
- */
-function locale(): string
-{
-    $locale = app()->getLocale();
-    if (!$locale) {
-        return config('app.fallback_locale');
-    }
-    return $locale;
-}
-
-/**
- * Return true if current user is logged, otherwise return false.
- * @return bool
- */
-function userIsLogged(): bool
-{
-    if (Auth::guest()) {
-        return false;
-    }
-
-    return true;
-}
-
-if (!function_exists('current_user')) {
-    /**
-     * Fetch currently logged in useruser()
-     * if User not logged in return false.
-     * Otherwise return
-     * a) User object of currently logged in user if $field is null or empty
-     * b) return single field user()->{$field} if $field is not empty and not null
-     *
-     * Returns false if not logged in
-     * @param string $field
-     * @return mixed
-     */
-    function current_user(string $field = '')
+if (!function_exists('locale')) {
+    function locale(): string
     {
-        if (!Auth::check()) {
-            return false;
+        $locale = app()->getLocale();
+        if (!$locale) {
+            return config('app.fallback_locale');
         }
 
-        if ($field == 'id') {
-            return Auth::id();
-        }
-
-        $user = Auth::user();
-
-        if ($field === null || $field == '') {
-            return $user;
-        }
-
-        return $user->{$field};
+        return $locale;
     }
 }
 
-/**
- * Fetch log of database queries and return executed queries
- *
- * Usage:
- *
- * You need enable query log by calling:
- * \DB::enableQueryLog();
- *
- * If you have more than one DB connection you must specify it and Enables query log for my_connection
- * \DB::connection('my_connection')->enableQueryLog();
- *
- * query the db
- * \App\Articoli::query()->where('id','=',343242342)->get();
- *
- * then you can call queries() or in case of more than oine db call queries($last, 'my_connection')
- * dd(queries($last));
- *
- * the output is an array:
- * [
- *   "query" => "select * from `negozi` where `id` = ?",
- *   "bindings" => [343242342,],
- *   "time" => 1.77,
- *   "look" => "select * from `negozi` where `id` = 343242342",
- * ]
- *
- * If you want to print only interpolated query
- * echo queries(true)['look'] //output: "select * from `negozi` where `id` = 343242342"
- *
- * For performance and memory reasons, after get queries info, you can disable query log by excecute
- * \DB::disableQueryLog();
- * or in case of more db connections:
- * \DB::connection('my_connection')->disableQueryLog();
- *
- * @param bool $last [false] - if true, only return last query
- * @param string $dbConnectionName if empty use default connection, otherwise if you are multiple DB connections you may specify it.
- * @return array of queries
- */
+
 function queries($last = false, $dbConnectionName = '')
 {
     if ($dbConnectionName != '') {
@@ -364,48 +273,45 @@ function query_interpolate($query, $params)
     return $query;
 }
 
-function humanFilesize()
-{
-    /**
-     * Formats the $value into a human readable filesize.
-     */
-    return function ($value, $precision = 1): string {
-        if ($value >= 1000000000000) {
-            $value = round($value / (1024 * 1024 * 1024 * 1024), $precision);
-            $unit  = 'TB';
-        } elseif ($value >= 1000000000) {
-            $value = round($value / (1024 * 1024 * 1024), $precision);
-            $unit  = 'GB';
-        } elseif ($value >= 1000000) {
-            $value = round($value / (1024 * 1024), $precision);
-            $unit  = 'MB';
-        } elseif ($value >= 1000) {
-            $value = round($value / (1024), $precision);
-            $unit  = 'KB';
-        } else {
-            $unit = 'Bytes';
-            return number_format($value) . ' ' . $unit;
-        }
+if (!function_exists('humanFilesize')) {
+    function humanFilesize()
+    {
+        return function ($value, $precision = 1): string {
+            if ($value >= 1000000000000) {
+                $value = round($value / (1024 * 1024 * 1024 * 1024), $precision);
+                $unit  = 'TB';
+            } elseif ($value >= 1000000000) {
+                $value = round($value / (1024 * 1024 * 1024), $precision);
+                $unit  = 'GB';
+            } elseif ($value >= 1000000) {
+                $value = round($value / (1024 * 1024), $precision);
+                $unit  = 'MB';
+            } elseif ($value >= 1000) {
+                $value = round($value / (1024), $precision);
+                $unit  = 'KB';
+            } else {
+                $unit = 'Bytes';
+                return number_format($value) . ' ' . $unit;
+            }
 
-        return number_format($value, $precision) . ' ' . $unit;
-    };
+            return number_format($value, $precision) . ' ' . $unit;
+        };
+    }
 }
 
+if (!function_exists('url')) {
 
-function url(): callable
-{
-    /**
-     * Prepends a default scheme to the url if it's missing.
-     */
-    return function ($value = null): ?string {
-        if ($value && !Str::startsWith($value, ['http://', 'https://'])) {
-            $value = 'https://' . $value;
-        }
+    function url(): callable
+    {
+        return function ($value = null): ?string {
+            if ($value && !Str::startsWith($value, ['http://', 'https://'])) {
+                $value = 'https://' . $value;
+            }
 
-        return $value;
-    };
+            return $value;
+        };
+    }
 }
-
 
 
 class ImageRequest extends FormRequest

@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     'helper' => [
@@ -25,7 +24,7 @@ return [
         |  However, you may choose to override this name.
         |
         */
-        'file' => 'helpers',
+        'default_file_name' => 'helpers',
     ],
 
 
