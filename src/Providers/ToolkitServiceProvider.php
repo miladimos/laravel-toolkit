@@ -1,6 +1,6 @@
 <?php
 
-namespace Miladimos\Toolkit;
+namespace Miladimos\Toolkit\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

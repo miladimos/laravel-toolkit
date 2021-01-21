@@ -19,14 +19,14 @@ class MakeHelperCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Make New Repository';
+    protected $description = 'Make New helper file';
 
 
     public function handle()
     {
-        $modelName = trim(Str::studly($this->argument('model')));
+        $modelName = trim(Str::studly($this->argument('name')));
 
-        $this->warn("Repository {$modelName} is creating ...");
+        $this->warn("helper file {$modelName} is creating ...");
 
         try {
             if (Repository::make($modelName))
