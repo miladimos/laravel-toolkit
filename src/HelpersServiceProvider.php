@@ -13,7 +13,7 @@ class HelpersServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . "/../config/config.php", 'helpers');
+        $this->mergeConfigFrom(__DIR__ . "/../config/toolkit.php", 'toolkit');
     }
 
     /**
@@ -26,29 +26,29 @@ class HelpersServiceProvider extends ServiceProvider
         $this->registerPublishes();
     }
 
-    protected function registerPublishes() {
-        if($this->app->runningInConsole()) {
+    protected function registerPublishes()
+    {
+        if ($this->app->runningInConsole()) {
 
             $this->publishes([
-                __DIR__ . '/../config/config.php' => config_path('helpers.php'),
-            ], 'helpers-config');
+                __DIR__ . '/../config/toolkit.php' => config_path('toolkit.php'),
+            ], 'toolkit-config');
 
 
-            $helperFile = config('helpers.file');
+            $helperFile = config('toolkit.file');
             $this->publishes([
-//                __DIR__ . '/Helpers/helpers.php' => app_path("Helpers/helpers.php"),
-                __DIR__ . '/Helpers/helpers.php' => app_path("Helpers/$helperFile.php"),
-            ], 'helpers-file');
-
+                //                __DIR__ . '/Helpers/toolkit.php' => app_path("Helpers/toolkit.php"),
+                __DIR__ . '/Helpers/toolkit.php' => app_path("Helpers/$helperFile.php"),
+            ], 'toolkit-file');
         }
     }
 
-//    public function registerHelpers()
-//    {
-//        // Load the helpers in app/Http/helpers.php
-//        if (file_exists($file = app_path('Http/helpers.php')))
-//        {
-//            require $file;
-//        }
-//    }
+    //    public function registerHelpers()
+    //    {
+    //        // Load the helpers in app/Http/helpers.php
+    //        if (file_exists($file = app_path('Http/helpers.php')))
+    //        {
+    //            require $file;
+    //        }
+    //    }
 }
