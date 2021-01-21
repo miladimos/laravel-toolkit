@@ -1,18 +1,25 @@
 <?php
 
 use Illuminate\Support\Str;
+use Illuminate\Routing\Route;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 
-if(!function_exists("isActive")) {
+if (!function_exists("isActive")) {
     function isActive($key, $class = 'active')
     {
- 	if(is_array($key)) {
-		return in_array(Route::currentRouteName(), $key) ? $class : '';
-	}
+        if (is_array($key)) {
+            return in_array(Route::currentRouteName(), $key) ? $class : '';
+        }
         return Route::currentRouteName() == $key ? $class : '';
     }
 }
 
-if(!function_exists("convertToEastern")) {
+if (!function_exists("convertToEastern")) {
     function convertToEastern($string)
     {
         $eastern = ["۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹", "۰"];
@@ -21,85 +28,85 @@ if(!function_exists("convertToEastern")) {
     }
 }
 
-if(!function_exists("convertToWestern")) {
+if (!function_exists("convertToWestern")) {
     function convertToWestern($string)
     {
         $eastern = ["۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹", "۰"];
         $western = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
-        return str_replace($eastern,$western,  $string);
+        return str_replace($eastern, $western,  $string);
     }
 }
 
 function getUserIP()
 {
-	$client  = @$_SERVER['HTTP_CLIENT_IP'];
-	$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-	$remote  = $_SERVER['REMOTE_ADDR'];
+    $client  = @$_SERVER['HTTP_CLIENT_IP'];
+    $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+    $remote  = $_SERVER['REMOTE_ADDR'];
 
-	if(filter_var($client, FILTER_VALIDATE_IP))
-	{
-		$ip = $client;
-	}
-	elseif(filter_var($forward, FILTER_VALIDATE_IP))
-	{
-		$ip = $forward;
-	}
-	else
-	{
-		$ip = $remote;
-	}
+    if (filter_var($client, FILTER_VALIDATE_IP)) {
+        $ip = $client;
+    } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
+        $ip = $forward;
+    } else {
+        $ip = $remote;
+    }
 
-	return $ip;
+    return $ip;
 }
 
-if(!function_exists("createOPTCode")) {
+if (!function_exists("createOPTCode")) {
     function createOPTCode()
     {
-        return random_int(100000,999999);
+        return random_int(100000, 999999);
     }
 }
 
-if(!function_exists("createEmailToken")) {
+if (!function_exists("createEmailToken")) {
     function createEmailToken()
     {
         return Str::random(60);
     }
 }
 
-if(!function_exists('is_user_online')) {
-    function is_user_online($user_id) {
-        if(cache()->has('user-is-online-'.$user_id))
+if (!function_exists('is_user_online')) {
+    function is_user_online($user_id)
+    {
+        if (cache()->has('user-is-online-' . $user_id))
             return true;
         else
             return false;
     }
 }
 
-if(!function_exists('user')) {
-    function user($guard = 'web') {
+if (!function_exists('user')) {
+    function user($guard = 'web')
+    {
         return auth($guard)->user();
     }
 }
 
-if(!function_exists('id')) {
-    function id($guard = 'web') {
+if (!function_exists('id')) {
+    function id($guard = 'web')
+    {
         return auth($guard)->id();
     }
 }
 
-if(!function_exists('username')) {
-    function username($guard = 'web') {
+if (!function_exists('username')) {
+    function username($guard = 'web')
+    {
         return auth($guard)->user()->username;
     }
 }
 
-if(!function_exists('email')) {
-    function email($guard = 'web') {
+if (!function_exists('email')) {
+    function email($guard = 'web')
+    {
         return auth($guard)->user()->email;
     }
 }
 
-if(!function_exists('generateToken')) {
+if (!function_exists('generateToken')) {
     function generateToken()
     {
         // This is set in the .env file
@@ -113,34 +120,35 @@ if(!function_exists('generateToken')) {
     }
 }
 
-if(!function_exists('decodeBase64File')) {
-    function decodeBase64File( $encodedFile ) {
+if (!function_exists('decodeBase64File')) {
+    function decodeBase64File($encodedFile)
+    {
         // اینجا اطلاعات اضافی رو پاک میکنم تا کد اصلی رو بگیرم
-        $file = str_replace(' ', '+', $encodedFile );
-        $file = substr( $file, strpos( $file,';base64,' ) + 8 );
+        $file = str_replace(' ', '+', $encodedFile);
+        $file = substr($file, strpos($file, ';base64,') + 8);
         $decodedFile = base64_decode($file);
 
         // با کمک توابع پی اچ پی، مشخصات فایل رو بررسی می کنم
-        $fileMimeType = finfo_buffer( finfo_open() , $decodedFile , FILEINFO_MIME_TYPE );
-        $fileExt = substr($fileMimeType, strpos($fileMimeType,'/')+1);
+        $fileMimeType = finfo_buffer(finfo_open(), $decodedFile, FILEINFO_MIME_TYPE);
+        $fileExt = substr($fileMimeType, strpos($fileMimeType, '/') + 1);
 
         return [
             'file' => $decodedFile, // فایل آماده برای ذخیره سازی در دیسک
             'mime'  => $fileMimeType, // نوع فایل
             'ext'   => $fileExt, // اکستنشن فایل
-            'size'  => (int)strlen( $decodedFile ) // حجم فایل با واحد بایت
+            'size'  => (int)strlen($decodedFile) // حجم فایل با واحد بایت
         ];
     }
 }
 
 /**
  * Returns the hashed string for the given id
- * 
+ *
  * @param integer $id id which has to be encoded
- * 
+ *
  * @return string
  */
-function encode(int $id) : string
+function encode(int $id): string
 {
     return Hashids::encode($id);
 }
@@ -152,17 +160,17 @@ function encode(int $id) : string
  *
  * @return integer
  */
-function decode(string $code) : int
+function decode(string $code): int
 {
     return collect(Hashids::decode($code))->first();
 }
 
 /**
  * Returns the status options
- * 
+ *
  * @return array
  */
-function getStatusOptions() : array
+function getStatusOptions(): array
 {
     return [
         '1' => 'Enabled',
@@ -199,7 +207,7 @@ function validate($fields, $rules): bool
 function locale(): string
 {
     $locale = app()->getLocale();
-    if(!$locale){
+    if (!$locale) {
         return config('app.fallback_locale');
     }
     return $locale;
@@ -209,7 +217,7 @@ function locale(): string
  * Return true if current user is logged, otherwise return false.
  * @return bool
  */
-function userIsLogged() : bool
+function userIsLogged(): bool
 {
     if (Auth::guest()) {
         return false;
@@ -289,10 +297,10 @@ if (!function_exists('current_user')) {
  */
 function queries($last = false, $dbConnectionName = '')
 {
-    if($dbConnectionName!=''){
-        $queries = \DB::connection($dbConnectionName)->getQueryLog();
-    }else{
-        $queries = \DB::getQueryLog();
+    if ($dbConnectionName != '') {
+        $queries = DB::connection($dbConnectionName)->getQueryLog();
+    } else {
+        $queries = DB::getQueryLog();
     }
 
     foreach ($queries as &$query) {
@@ -310,7 +318,7 @@ function queries($last = false, $dbConnectionName = '')
  *
  * @return string
  */
-function query_table() : string
+function query_table(): string
 {
     $queries = queries();
     $html = '<table style="background-color: #FFFF00;border: 1px solid #000000;color: #000000;padding-left: 10px;padding-right: 10px;width: 100%;">';
@@ -349,52 +357,54 @@ function query_interpolate($query, $params)
         }
     }
     // Walk the array to see if we can add single-quotes to strings
-    array_walk($values, function(&$v) { if (!is_numeric($v) && $v!="NULL") $v = "'".$v."'";});
+    array_walk($values, function (&$v) {
+        if (!is_numeric($v) && $v != "NULL") $v = "'" . $v . "'";
+    });
     $query = preg_replace($keys, $values, $query, 1, $count);
     return $query;
 }
 
- public function humanFilesize(): callable
-    {
-        /**
-         * Formats the $value into a human readable filesize.
-         */
-        return function ($value, $precision = 1): string {
-            if ($value >= 1000000000000) {
-                $value = round($value / (1024 * 1024 * 1024 * 1024), $precision);
-                $unit  = 'TB';
-            } elseif ($value >= 1000000000) {
-                $value = round($value / (1024 * 1024 * 1024), $precision);
-                $unit  = 'GB';
-            } elseif ($value >= 1000000) {
-                $value = round($value / (1024 * 1024), $precision);
-                $unit  = 'MB';
-            } elseif ($value >= 1000) {
-                $value = round($value / (1024), $precision);
-                $unit  = 'KB';
-            } else {
-                $unit = 'Bytes';
-                return number_format($value) . ' ' . $unit;
-            }
+function humanFilesize()
+{
+    /**
+     * Formats the $value into a human readable filesize.
+     */
+    return function ($value, $precision = 1): string {
+        if ($value >= 1000000000000) {
+            $value = round($value / (1024 * 1024 * 1024 * 1024), $precision);
+            $unit  = 'TB';
+        } elseif ($value >= 1000000000) {
+            $value = round($value / (1024 * 1024 * 1024), $precision);
+            $unit  = 'GB';
+        } elseif ($value >= 1000000) {
+            $value = round($value / (1024 * 1024), $precision);
+            $unit  = 'MB';
+        } elseif ($value >= 1000) {
+            $value = round($value / (1024), $precision);
+            $unit  = 'KB';
+        } else {
+            $unit = 'Bytes';
+            return number_format($value) . ' ' . $unit;
+        }
 
-            return number_format($value, $precision) . ' ' . $unit;
-        };
-    }
+        return number_format($value, $precision) . ' ' . $unit;
+    };
+}
 
 
-public function url(): callable
-    {
-        /**
-         * Prepends a default scheme to the url if it's missing.
-         */
-        return function ($value = null): ?string {
-            if ($value && !Str::startsWith($value, ['http://', 'https://'])) {
-                $value = 'https://' . $value;
-            }
+function url(): callable
+{
+    /**
+     * Prepends a default scheme to the url if it's missing.
+     */
+    return function ($value = null): ?string {
+        if ($value && !Str::startsWith($value, ['http://', 'https://'])) {
+            $value = 'https://' . $value;
+        }
 
-            return $value;
-        };
-    }
+        return $value;
+    };
+}
 
 
 
@@ -432,7 +442,7 @@ trait ConvertsBase64ToFiles
      *
      * @return void
      */
-    protected function prepareForValidation()
+    function prepareForValidation()
     {
         Collection::make($this->base64FileKeys())->each(function ($filename, $key) {
             rescue(function () use ($key, $filename) {
@@ -465,5 +475,4 @@ trait ConvertsBase64ToFiles
             }, null, false);
         });
     }
-
-
+}
