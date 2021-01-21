@@ -10,9 +10,9 @@ trait getStubs
      *
      * @return string
      */
-    protected static function getRepositoryStub()
+    protected static function getHelperStub()
     {
-        return file_get_contents(resource_path("vendor/miladimos/repository/stubs/repository.stub"));
+        return file_get_contents(resource_path("vendor/miladimos/toolkit/stubs/helper.stub"));
     }
 
     /**
@@ -20,24 +20,15 @@ trait getStubs
      *
      * @return string
      */
-    protected static function getRepositoryServiceProviderStub()
+    protected static function getEmptyHelperStub()
     {
-        return file_get_contents(resource_path("vendor/miladimos/repository/stubs/RepositoryServiceProvider.stub"));
+        return file_get_contents(resource_path("vendor/miladimos/toolkit/stubs/emptyHelper.stub"));
     }
 
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected static function getRepositoryInterfaceStub()
-    {
-        return file_get_contents(resource_path("vendor/miladimos/repository/stubs/RepositoryInterface.stub"));
-    }
 
     protected static function getStub($type)
     {
-        return file_get_contents(resource_path("vendor/miladimos/repository/stubs/$type.stub"));
+        return file_get_contents(resource_path("vendor/miladimos/toolkit/stubs/$type.stub"));
     }
 
 
@@ -48,6 +39,6 @@ trait getStubs
      */
     public function stubPath()
     {
-        return __DIR__ . '/stubs';
+        return __DIR__ . '/../Console/Stubs/';
     }
 }

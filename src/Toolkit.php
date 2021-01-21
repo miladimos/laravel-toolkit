@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Miladimos\Toolkit;
-
 
 use Miladimos\Toolkit\Traits\getStubs;
 use Miladimos\Toolkit\Traits\validateModel;
@@ -12,52 +10,52 @@ class Toolkit
 {
     use getStubs, helpersMethods, validateModel;
 
-
-    protected static function createProvider()
+    protected static function createHelperFile($name)
     {
-        $template =  self::getToolkitServiceProviderStub();
-
-        if (!file_exists($path=base_path('/App/Providers/ToolkitServiceProvider.php')))
-            file_put_contents(base_path('/App/Providers/ToolkitServiceProvider.php'), $template);
-    }
-
-
-    protected static function createToolkit($name)
-    {
-        $modelNamespace = self::getModelNamespace($name);
-        $interfaceNamespace = self::getInterfaceNamespace($name);
+        $helperNamespace = self::getModelNamespace($name);
         $template = str_replace(
             ['{{$modelName}}', '{{ $modelNamespace }}'],
             [$name, $modelNamespace],
-            self::getToolkitStub()
+            self::getHelperStub()
         );
 
 
-        file_put_contents(base_path("/App/Repositories/{$name}Toolkit.php"), $template);
+        file_put_contents(base_path("/App/Helpers/{$name}Toolkit.php"), $template);
     }
 
-    protected static function createInterface($name)
+    protected static function createEmptyHelperFile($name)
     {
-        $interfaceNamespace = self::getInterfaceNamespace($name);
+        $helperNamespace = self::getModelNamespace($name);
         $template = str_replace(
-            ['{{ $interfaceNamespace }}'],
-            [$$interfaceNamespace],
-            self::getToolkitInterfaceStub()
+            ['{{$modelName}}', '{{ $modelNamespace }}'],
+            [$name, $modelNamespace],
+            self::getEmptyHelperStub()
         );
 
-        file_put_contents(base_path("/Repositories/{$name}EloquentToolkitInterface.php"), $template);
 
+        file_put_contents(base_path("/App/Helpers/{$name}Toolkit.php"), $template);
     }
 
-    public static function make($modelName)
+    public static function makeHelper($modelName)
     {
 
-        if (!file_exists($path=(new self)->getToolkitDefaultNamespace()))
+        if (!file_exists($path = (new self)->getToolkitDefaultNamespace()))
             mkdir($path, 0777, true);
 
         // self::createProvider();
-        self::createToolkit($modelName);
-        self::createInterface($modelName);
+        self::createHelperFile($modelName);
+
+        return true;
+    }
+
+    public static function makeEmptyHelper($modelName)
+    {
+
+        if (!file_exists($path = (new self)->getToolkitDefaultNamespace()))
+            mkdir($path, 0777, true);
+
+        // self::createProvider();
+        self::createHelperFile($modelName);
 
         return true;
     }

@@ -13,7 +13,7 @@ return [
         | directory. However, you may choose to override the directory.
         | namespace => App\$directory
         */
-        'directory' => 'Helpers',
+        'namespace' => 'Helpers',
 
 
         /*
@@ -26,7 +26,7 @@ return [
         |
         */
         'file' => 'helpers',
-    ]
+    ],
 
 
 ];

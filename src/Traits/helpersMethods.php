@@ -4,52 +4,30 @@ namespace Miladimos\Toolkit\Traits;
 
 use Illuminate\Support\Str;
 
-
 trait helpersMethods
 {
 
-    protected function getRepositoryDefaultNamespace()
+    protected function getHelperDefaultNamespace()
     {
-        $repositoryNamespace = config('repository.repositories_namespace') ?? 'Repositories';
-        return app_path($repositoryNamespace);
-    }
-
-
-    /**
-     * Get the repository's class name.
-     *
-     * @param string $model
-     * @return string
-     */
-    protected static function getRepositorySuffix($model)
-    {
-        $repotisorySuffix = config('repositories.repositories_suffix') ?? 'Repository';
-        return $model . $repotisorySuffix;
+        $helperNamespace = config('toolkit.helper.namespace') ?? 'Helpers';
+        return app_path($helperNamespace);
     }
 
     /**
-     * Get the class name of the model name.
+     * Get the class name of the file name.
      *
-     * @param string $model
+     * @param string $file
      * @return string
      */
-    protected static function getModelClassName($model)
+    protected static function getHelperFileName($file)
     {
-        return Str::studly($model);
+        return Str::studly($file);
     }
 
-    protected static function getModelNamespace($model)
+    protected static function getHelperNamespace($model)
     {
-        $appNamespace = config('repository.base_app_namespace') ?? 'App';
-        $modelNamespace = config('repository.models_namespace') ?? 'Models';
-
-        return $appNamespace . '\\' . $modelNamespace . '\\' . $model . ';';
-    }
-
-    protected static function getInterfaceNamespace($model)
-    {
-        $appNamespace = config('repository.base_app_namespace') ?? 'App';
-        $modelNamespace = config('repository.models_namespace') ?? 'Models';
+        $appNamespace = config('toolkit.helper.base_app_namespace') ?? 'App';
+        $modelNamespace = config('toolkit.helper.models_namespace') ?? 'Models';
 
         return $appNamespace . '\\' . $modelNamespace . '\\' . $model . ';';
     }
