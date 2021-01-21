@@ -1,6 +1,6 @@
 <?php
 
-namespace Miladimos\Helper\Console\Commands;
+namespace Miladimos\Toolkit\Console\Commands;
 
 
 use Illuminate\Console\Command;

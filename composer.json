@@ -1,14 +1,17 @@
 {
-    "name": "miladimos/laravel-helpers",
-    "description": "a package for collections of custom helpers",
-    "homepage": "https://github.com/miladimos/laravel-helpers",
+    "name": "miladimos/laravel-toolkit",
+    "description": "a package for collections of custom toolkit",
+    "homepage": "https://github.com/miladimos/laravel-toolkit",
     "type": "library",
     "keywords": [
         "laravel",
         "laravel-package",
+        "laravel-toolkit",
         "laravel-helpers",
+        "laravel-helper",
         "laravel support",
         "lumen packages",
+        "laravel helper file",
         "laravel packages",
         "lumen support"
     ],
@@ -22,16 +25,16 @@
     ],
     "autoload": {
         "psr-4": {
-            "Miladimos\\Helpers\\": "src/"
+            "Miladimos\\Toolkit\\": "src/"
         },
         "files": [
-            "src/Helpers/helpers.php"
+            "src/Toolkit/helpers.php"
         ]
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Miladimos\\Helpers\\HelpersServiceProvider"
+                "Miladimos\\Toolkit\\ToolkitServiceProvider"
             ]
         }
     },

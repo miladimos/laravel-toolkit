@@ -1,10 +1,10 @@
 <?php
 
-namespace Miladimos\Helpers;
+namespace Miladimos\Toolkit;
 
 use Illuminate\Support\ServiceProvider;
 
-class HelpersServiceProvider extends ServiceProvider
+class ToolkitServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -37,13 +37,13 @@ class HelpersServiceProvider extends ServiceProvider
 
             $helperFile = config('toolkit.file');
             $this->publishes([
-                //                __DIR__ . '/Helpers/toolkit.php' => app_path("Helpers/toolkit.php"),
-                __DIR__ . '/Helpers/toolkit.php' => app_path("Helpers/$helperFile.php"),
+                //                __DIR__ . '/Toolkit/toolkit.php' => app_path("Toolkit/toolkit.php"),
+                __DIR__ . '/Toolkit/toolkit.php' => app_path("Toolkit/$helperFile.php"),
             ], 'toolkit-file');
         }
     }
 
-    //    public function registerHelpers()
+    //    public function registerToolkit()
     //    {
     //        // Load the helpers in app/Http/helpers.php
     //        if (file_exists($file = app_path('Http/helpers.php')))
