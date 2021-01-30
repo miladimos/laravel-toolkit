@@ -21,14 +21,16 @@ class MakeHelperCommand extends Command
     {
         $name = trim(Str::lower($this->argument('name')));
 
+        dd($name);
         $this->warn("helper file {$name} is creating ...");
 
         try {
-            if (Toolkit::makeHelper($name))
+            if (Toolkit::makeHelper($name)) {
                 $this->info("Helper File: {$name} is created successfully.");
-            else
+            } else {
                 $this->error('Error in Creating Helper!');
-            die;
+                die;
+            }
         } catch (\Exception $exception) {
             $this->error($exception);
             die;

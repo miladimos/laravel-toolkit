@@ -13,11 +13,6 @@ class InstallPackageCommand extends Command
 
     protected $name = 'Install Toolkit Package';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Simply Install laravel-toolkit Package';
 
 
@@ -39,7 +34,6 @@ class InstallPackageCommand extends Command
             $this->publishConfig();
             $this->info("config published");
         }
-
 
         $confirmStub = $this->confirm("Do you like publish stub files?");
         if ($confirmStub) {
