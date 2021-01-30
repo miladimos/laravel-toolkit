@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-
 // Start Users / Auth Helpers
 
 if (!function_exists("getUserIP")) {

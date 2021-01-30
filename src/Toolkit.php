@@ -8,7 +8,9 @@ use Miladimos\Toolkit\Traits\helpersMethods;
 
 class Toolkit
 {
-    use getStubs, helpersMethods, validateModel;
+    use getStubs,
+        helpersMethods,
+        validateModel;
 
     protected static function createHelperFile($name)
     {

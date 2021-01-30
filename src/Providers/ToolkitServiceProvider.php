@@ -6,21 +6,13 @@ use Illuminate\Support\ServiceProvider;
 
 class ToolkitServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     *
-     * @return void
-     */
+
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . "/../config/toolkit.php", 'toolkit');
     }
 
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
+
     public function boot()
     {
         $this->registerPublishes();

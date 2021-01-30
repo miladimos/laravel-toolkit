@@ -1,6 +1,5 @@
 <?php
 
-
 if (!function_exists("function")) {
     function function()
     {

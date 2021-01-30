@@ -9,25 +9,25 @@ use Illuminate\Support\Facades\File;
 class InstallPackageCommand extends Command
 {
 
-    protected $signature = "repository:install";
+    protected $signature = "toolkit:install";
 
-    protected $name = 'Install Repository Package';
+    protected $name = 'Install Toolkit Package';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Simply Install laravel-repository Package';
+    protected $description = 'Simply Install laravel-toolkit Package';
 
 
     public function handle()
     {
-        $this->warn("Repository Package installing started...");
+        $this->warn("Toolkit Package installing started...");
 
         //config
-        if (File::exists(config_path('repository.php'))) {
-            $confirmConfig = $this->confirm("repository.php already exist. you must overwrite it! Are you ok?");
+        if (File::exists(config_path('toolkit.php'))) {
+            $confirmConfig = $this->confirm("toolkit.php already exist. you must overwrite it! Are you ok?");
             if ($confirmConfig) {
                 $this->publishConfig();
                 $this->info("config publish/overwrite finished");
@@ -47,7 +47,7 @@ class InstallPackageCommand extends Command
             $this->info("stub files published!");
         }
 
-        $this->info("repository package installed successfully! please star me on github!");
+        $this->info("toolkit package installed successfully! please star me on github!");
 
         return 0;
     }
@@ -56,16 +56,16 @@ class InstallPackageCommand extends Command
     private function publishConfig()
     {
         $this->call('vendor:publish', [
-            '--provider' => "Miladimos\Repository\Providers\RepositoryServiceProvider",
-            '--tag' => "repository-config"
+            '--provider' => "Miladimos\Toolkit\Providers\ToolkitServiceProvider",
+            '--tag' => "toolkit-config"
         ]);
     }
 
     private function publishStubs()
     {
         $this->call('vendor:publish', [
-            '--provider' => "Miladimos\Repository\Providers\RepositoryServiceProvider",
-            '--tag' => "repository-stubs"
+            '--provider' => "Miladimos\Toolkit\Providers\ToolkitServiceProvider",
+            '--tag' => "toolkit-stubs"
         ]);
     }
 }

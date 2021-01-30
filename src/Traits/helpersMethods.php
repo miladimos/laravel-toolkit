@@ -7,28 +7,22 @@ use Illuminate\Support\Str;
 trait helpersMethods
 {
 
-    protected function getHelperDefaultNamespace()
+    protected function getHelperDefaultPath()
     {
         $helperNamespace = config('toolkit.helper.namespace') ?? 'Helpers';
         return app_path($helperNamespace);
     }
 
-    /**
-     * Get the class name of the file name.
-     *
-     * @param string $file
-     * @return string
-     */
-    protected static function getHelperFileName($file)
-    {
-        return Str::studly($file);
-    }
-
-    protected static function getHelperNamespace($model)
+    protected static function getHelperNamespace($name)
     {
         $appNamespace = config('toolkit.helper.base_app_namespace') ?? 'App';
-        $modelNamespace = config('toolkit.helper.models_namespace') ?? 'Models';
+        $helperNamespace = config('toolkit.helper.helpers_namespace') ?? 'Helpers';
 
-        return $appNamespace . '\\' . $modelNamespace . '\\' . $model . ';';
+        return $appNamespace . '\\' . $helperNamespace . '\\' . $name . ';';
+    }
+
+    protected static function getHelperFileName($file)
+    {
+        return Str::lower($file);
     }
 }
