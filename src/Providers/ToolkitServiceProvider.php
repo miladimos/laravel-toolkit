@@ -23,6 +23,7 @@ class ToolkitServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishConfig();
             $this->registerCommands();
+            $this->publishStubs();
         }
     }
 

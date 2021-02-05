@@ -7,18 +7,30 @@ use Illuminate\Support\Str;
 trait HelpersMethods
 {
 
-    protected function getHelperDefaultPath()
+    protected static function getHelperFilePath($file)
     {
-        $helperNamespace = config('toolkit.helper.namespace') ?? 'Helpers';
-        return app_path($helperNamespace);
+        $helperNamespace = config('toolkit.helpers.namespace') ?? 'Helpers';
+
+        return app_path($helperNamespace . '\\' . $file . '.php');
     }
 
-    protected static function getHelperNamespace($name)
+    protected static function getHelperNamespace($full = true)
     {
-        $appNamespace = config('toolkit.helper.base_app_namespace') ?? 'App';
-        $helperNamespace = config('toolkit.helper.helpers_namespace') ?? 'Helpers';
+        $appNamespace = config('toolkit.base_app_namespace') ?? 'App';
+        $helperNamespace = config('toolkit.helpers.namespace') ?? 'Helpers';
 
-        return $appNamespace . '\\' . $helperNamespace . '\\' . $name . ';';
+        if ($full)
+            return $appNamespace . '\\' . $helperNamespace . ';';
+
+
+        return $appNamespace . '\\' . $helperNamespace;
+    }
+
+    protected static function getHelperDirectory()
+    {
+        $helperNamespace = config('toolkit.helpers.namespace') ?? 'Helpers';
+
+        return app_path($helperNamespace);
     }
 
     protected static function getHelperFileName($file)

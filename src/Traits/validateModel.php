@@ -7,10 +7,10 @@ use InvalidArgumentException;
 trait ValidateModel
 {
 
-    protected function ensureHelperDoesntAlreadytExist($model)
+    protected function ensureHelperDoesntAlreadytExist($file)
     {
-        if (class_exists($classFullyQualified = $this->getHelperDefaultNamespace($model), false)) {
-            throw new InvalidArgumentException("{$classFullyQualified} already exists.");
+        if (file_exists($this->getHelperPath($file), false)) {
+            throw new InvalidArgumentException("{$file} already exists.");
         }
     }
 }

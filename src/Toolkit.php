@@ -13,53 +13,31 @@ class Toolkit
         HelpersMethods,
         ValidateModel;
 
-    protected static function createHelperFile($name)
+    public static function makeHelper($name)
     {
-        $helperNamespace = self::getnamespace($name);
-        $template = str_replace(
-            ['{{$name}}', '{{ $namespace }}'],
-            [$name, $namespace],
-            self::getHelperStub()
-        );
 
+        if (!file_exists($path = app_path((new self)->getHelperNamespace())))
+            mkdir($path, 0777, true);
 
-        file_put_contents(base_path("/App/Helpers/{$name}Toolkit.php"), $template);
-    }
-
-    protected static function createEmptyHelperFile($name)
-    {
-        $helperNamespace = self::getnamespace($name);
         $template = str_replace(
             ['{{$name}}', '{{ $namespace }}'],
             [$name, $namespace],
             self::getEmptyHelperStub()
         );
 
-
-        file_put_contents(base_path("/App/Helpers/{$name}Toolkit.php"), $template);
-    }
-
-    public static function makeHelper($name)
-    {
-
-        if (!file_exists($path = (new self)->getToolkitDefaultNamespace()))
-            mkdir($path, 0777, true);
-
-        // self::createProvider();
-        self::createHelperFile($name);
-
         return true;
     }
 
     public static function makeEmptyHelper($name)
     {
-        // File::put('path', 'content');
-
-        if (!file_exists($path = (new self)->getToolkitDefaultNamespace()))
+        if (!File::isDirectory($path = (new self)->getHelperDirectory()))
             mkdir($path, 0777, true);
 
-        // self::createProvider();
-        self::createHelperFile($name);
+        $helperNamespace = (new self)->getHelperNamespace();
+
+        $template = (new self)->getEmptyHelperStub();
+
+        file_put_contents((new self)->getHelperFilePath($name), $template);
 
         return true;
     }
