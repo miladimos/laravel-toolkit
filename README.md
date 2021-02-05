@@ -30,6 +30,7 @@ in composer.php file:
         "pathToHelperFile.php" // app/Helpers/helpers.php
     ],
     ...
-},```
+},
+```
 
 

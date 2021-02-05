@@ -30,4 +30,5 @@
         "pathToHelperFile.php" // app/Helpers/helpers.php
     ],
     ...
-},```
+},
+```
