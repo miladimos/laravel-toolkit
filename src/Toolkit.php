@@ -3,22 +3,22 @@
 namespace Miladimos\Toolkit;
 
 use Illuminate\Support\Facades\File;
-use Miladimos\Toolkit\Traits\getStubs;
-use Miladimos\Toolkit\Traits\validateModel;
-use Miladimos\Toolkit\Traits\helpersMethods;
+use Miladimos\Toolkit\Traits\GetStubs;
+use Miladimos\Toolkit\Traits\ValidateModel;
+use Miladimos\Toolkit\Traits\HelpersMethods;
 
 class Toolkit
 {
-    use getStubs,
-        helpersMethods,
-        validateModel;
+    use GetStubs,
+        HelpersMethods,
+        ValidateModel;
 
     protected static function createHelperFile($name)
     {
-        $helperNamespace = self::getModelNamespace($name);
+        $helperNamespace = self::getnamespace($name);
         $template = str_replace(
-            ['{{$modelName}}', '{{ $modelNamespace }}'],
-            [$name, $modelNamespace],
+            ['{{$name}}', '{{ $namespace }}'],
+            [$name, $namespace],
             self::getHelperStub()
         );
 
@@ -28,10 +28,10 @@ class Toolkit
 
     protected static function createEmptyHelperFile($name)
     {
-        $helperNamespace = self::getModelNamespace($name);
+        $helperNamespace = self::getnamespace($name);
         $template = str_replace(
-            ['{{$modelName}}', '{{ $modelNamespace }}'],
-            [$name, $modelNamespace],
+            ['{{$name}}', '{{ $namespace }}'],
+            [$name, $namespace],
             self::getEmptyHelperStub()
         );
 
@@ -39,27 +39,27 @@ class Toolkit
         file_put_contents(base_path("/App/Helpers/{$name}Toolkit.php"), $template);
     }
 
-    public static function makeHelper($modelName)
+    public static function makeHelper($name)
     {
 
         if (!file_exists($path = (new self)->getToolkitDefaultNamespace()))
             mkdir($path, 0777, true);
 
         // self::createProvider();
-        self::createHelperFile($modelName);
+        self::createHelperFile($name);
 
         return true;
     }
 
-    public static function makeEmptyHelper($modelName)
+    public static function makeEmptyHelper($name)
     {
-        File::put('path', 'content');
+        // File::put('path', 'content');
 
         if (!file_exists($path = (new self)->getToolkitDefaultNamespace()))
             mkdir($path, 0777, true);
 
         // self::createProvider();
-        self::createHelperFile($modelName);
+        self::createHelperFile($name);
 
         return true;
     }

@@ -4,8 +4,7 @@ namespace Miladimos\Toolkit\Traits;
 
 use InvalidArgumentException;
 
-
-trait validateModel
+trait ValidateModel
 {
 
     protected function ensureHelperDoesntAlreadytExist($model)

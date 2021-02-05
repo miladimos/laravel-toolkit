@@ -4,7 +4,7 @@ namespace Miladimos\Toolkit\Traits;
 
 use Illuminate\Support\Str;
 
-trait helpersMethods
+trait HelpersMethods
 {
 
     protected function getHelperDefaultPath()
