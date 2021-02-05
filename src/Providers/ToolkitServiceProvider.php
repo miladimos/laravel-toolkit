@@ -41,7 +41,7 @@ class ToolkitServiceProvider extends ServiceProvider
     }
 
 
-    private function registerCommands()
+    public function registerCommands()
     {
         $this->commands([
             InstallPackageCommand::class,

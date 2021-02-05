@@ -11,8 +11,16 @@ use Illuminate\Console\Command;
 class MakeHelperCommand extends Command
 {
 
+    protected $defaultFileName;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->defaultFileName = config('toolkit.helpers.default_file_name');
+    }
+
     protected $signature = "make:helper
-                           { name=helpers : helper file name }
+                           { name? : helper file name }
                            { --e|empty : Create empty helper file }
                            ";
 
@@ -20,18 +28,25 @@ class MakeHelperCommand extends Command
 
     protected $description = 'Create a new helper file';
 
+
+    protected $fileName;
+
     public function handle()
     {
-        $name = trim(Str::lower($this->argument('name')));
+        $this->fileName = trim(Str::lower($this->argument('name')));
 
-        $this->warn("helper file {$name} is creating ...");
+        if (!$this->argument('name')) {
+            $this->fileName = config('toolkit.helpers.default_file_name');
+        }
+
+        $this->warn("helper file {$this->fileName} is creating ...");
 
         try {
 
             if ($this->option('empty')) {
 
-                if (Toolkit::makeEmptyHelper($name)) {
-                    $this->info("Empty helper File: {$name} is created successfully.");
+                if (Toolkit::makeEmptyHelper($this->fileName)) {
+                    $this->info("Empty helper File: {$this->fileName} is created successfully.");
                     die;
                 } else {
                     $this->error('Error in creating helper!');
@@ -39,8 +54,8 @@ class MakeHelperCommand extends Command
                 }
             }
 
-            if (Toolkit::makeHelper($name)) {
-                $this->info("Full Helper file: {$name} is created successfully.");
+            if (Toolkit::makeHelper($this->fileName)) {
+                $this->info("Full Helper file: {$this->fileName} is created successfully.");
                 die;
             } else {
                 $this->error('Error in creating helper!');
