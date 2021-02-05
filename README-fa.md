@@ -1,22 +1,21 @@
 - [![Starts](https://img.shields.io/github/stars/miladimos/laravel-toolkit?style=flat&logo=github)](https://github.com/miladimos/laravel-toolkit/forks)
 - [![Forks](https://img.shields.io/github/forks/miladimos/laravel-toolkit?style=flat&logo=github)](https://github.com/miladimos/laravel-toolkit/stargazers)
 
-- [فارسی](README.md)
+- [English](README.md)
 
-## Installation
+### برای نصب دستور زیر را در ریشه پروژه اجرا کنید
 
 `composer require miladimos/laravel-toolkit`
 
-##### Install Package Configs
+##### برای نصب پکیج دستور زیر را اجرا کنید
 
 `php artisan toolkit:install`
 
-
-##### Create new helper file
+##### برای ایجاد helper فایل
 
 `php artisan make:helper {name}`
 
-default name is: helpers
+نام پیشفرض: helpers
 
-if you want create empty helper file use -e|--empty option
-
+اگر که فایل کمکی خالی میخواهید از 
+-e|--empty استفاده کنید
