@@ -4,6 +4,8 @@ namespace Miladimos\Toolkit\Providers;
 
 use Miladimos\Toolkit\Toolkit;
 use Illuminate\Support\ServiceProvider;
+use Miladimos\Toolkit\Console\Commands\InstallPackageCommand;
+use Miladimos\Toolkit\Console\Commands\MakeHelperCommand;
 
 class ToolkitServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,7 @@ class ToolkitServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishConfig();
+            $this->registerCommands();
         }
     }
 
@@ -37,6 +40,14 @@ class ToolkitServiceProvider extends ServiceProvider
         ], 'toolkit-config');
     }
 
+
+    private function registerCommands()
+    {
+        $this->commands([
+            InstallPackageCommand::class,
+            MakeHelperCommand::class,
+        ]);
+    }
 
     // protected function registerPublishes()
     // {
