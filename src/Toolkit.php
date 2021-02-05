@@ -31,6 +31,8 @@ class Toolkit
         if (!File::isDirectory($path = (new self)->getHelperDirectory()))
             mkdir($path, 0777, true);
 
+        dd((new self)->ensureHelperDoesntAlreadytExist($name));
+
         $template = (new self)->getEmptyHelperStub();
 
         file_put_contents((new self)->getHelperFilePath($name), $template);
