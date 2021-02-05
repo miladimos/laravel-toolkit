@@ -18,9 +18,9 @@ class InstallPackageCommand extends Command
 
     public function handle()
     {
-        $this->warn("Toolkit Package installing started...");
+        $this->info("Toolkit Package installing started...");
 
-        //config
+        // config file
         if (File::exists(config_path('toolkit.php'))) {
             $confirmConfig = $this->confirm("toolkit.php already exist. you must overwrite it! Are you ok?");
             if ($confirmConfig) {

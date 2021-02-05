@@ -2,6 +2,7 @@
 
 namespace Miladimos\Toolkit\Providers;
 
+use Miladimos\Toolkit\Toolkit;
 use Illuminate\Support\ServiceProvider;
 
 class ToolkitServiceProvider extends ServiceProvider
@@ -10,30 +11,40 @@ class ToolkitServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . "/../config/toolkit.php", 'toolkit');
+
+        $this->registerFacades();
     }
 
 
     public function boot()
     {
-        $this->registerPublishes();
-    }
-
-    protected function registerPublishes()
-    {
         if ($this->app->runningInConsole()) {
-
-            $this->publishes([
-                __DIR__ . '/../config/toolkit.php' => config_path('toolkit.php'),
-            ], 'toolkit-config');
-
-
-            $helperFile = config('toolkit.file');
-            $this->publishes([
-                //                __DIR__ . '/Toolkit/toolkit.php' => app_path("Toolkit/toolkit.php"),
-                __DIR__ . '/Toolkit/toolkit.php' => app_path("Toolkit/$helperFile.php"),
-            ], 'toolkit-file');
+            $this->publishConfig();
         }
     }
+
+    private function registerFacades()
+    {
+        $this->app->bind('toolkit', function ($app) {
+            return new Toolkit();
+        });
+    }
+
+    private function publishConfig()
+    {
+        $this->publishes([
+            __DIR__ . '/../../config/config.php' => config_path('toolkit.php')
+        ], 'toolkit-config');
+    }
+
+
+    // protected function registerPublishes()
+    // {
+    //     $helperFile = config('toolkit.file');
+    //     $this->publishes([
+    //         __DIR__ . '/Toolkit/toolkit.php' => app_path("Toolkit/$helperFile.php"),
+    //     ], 'toolkit-file');
+    // }
 
     //    public function registerToolkit()
     //    {

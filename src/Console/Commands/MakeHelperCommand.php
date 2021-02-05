@@ -11,11 +11,13 @@ class MakeHelperCommand extends Command
 {
 
     protected $signature = "make:helper
-                           { name : helper file name }";
+                           { name : helper file name }
+                           { --e|empty? : create empty helper file }
+                           ";
 
     protected $name = 'Helper';
 
-    protected $description = 'Make New helper file';
+    protected $description = 'Create a new helper file';
 
     public function handle()
     {
