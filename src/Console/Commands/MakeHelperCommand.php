@@ -33,7 +33,6 @@ class MakeHelperCommand extends Command
 
     protected $description = 'Create a new helper file';
 
-
     protected $fileName;
 
     public function handle()
@@ -109,14 +108,4 @@ class MakeHelperCommand extends Command
         return 0;
     }
 
-    // if ((new self)->ensureHelperDoesntAlreadytExist($this->fileName)) {
-    //     $msg = (new self)->getHelperFilePath($this->fileName) . " already exist. you must overwrite it! Are you ok?";
-    //     $confirm = $this->confirm($msg);
-    //     if ($confirm) {
-
-    //         $this->info("$this->fileName overwrite finished");
-    //     } else {
-    //         $this->fileName = $this->ask("Enter the helper file name? ");
-    //     }
-    // }
 }

@@ -35,10 +35,24 @@ class InstallPackageCommand extends Command
             $this->info("config published");
         }
 
-        $confirmStub = $this->confirm("Do you like publish stub files?");
+        $confirmStub = $this->confirm("Do you like publish stubs files?");
         if ($confirmStub) {
+            if (File::isDirectory(resource_path('vendor/miladimos/toolkit/stubs'))) {
+                $confirmConfig = $this->confirm("stubs files already exist. you must overwrite it! Are you ok?");
+                if ($confirmConfig) {
+                    $this->publishStubs();
+                    $this->info("stubs publish/overwrite finished");
+                    die;
+                } else {
+                    $this->error("you must publish and overwrite stubs file");
+                    die;
+                }
+            }
             $this->publishStubs();
             $this->info("stub files published!");
+        } else {
+            $this->error("you must publish and overwrite stubs file");
+            die;
         }
 
         $this->info("toolkit package installed successfully! please star me on github!");
@@ -51,15 +65,18 @@ class InstallPackageCommand extends Command
     {
         $this->call('vendor:publish', [
             '--provider' => "Miladimos\Toolkit\Providers\ToolkitServiceProvider",
-            '--tag' => "toolkit-config"
+            '--tag' => "toolkit-config",
+            '--force' => true
         ]);
     }
 
     private function publishStubs()
     {
+
         $this->call('vendor:publish', [
             '--provider' => "Miladimos\Toolkit\Providers\ToolkitServiceProvider",
-            '--tag' => "toolkit-stubs"
+            '--tag' => "toolkit-stubs",
+            '--force' => true
         ]);
     }
 }

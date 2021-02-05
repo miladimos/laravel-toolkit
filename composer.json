@@ -35,6 +35,14 @@
             ]
         }
     },
+    "scripts": {
+        "post-package-install": [
+            "php artisan vendor:publish --provider=Miladimos\\Toolkit\\Providers\\ToolkitServiceProvider --tag=toolkit-stubs --force"
+        ],
+        "post-package-update": [
+            "php artisan vendor:publish --provider=Miladimos\\Toolkit\\Providers\\ToolkitServiceProvider --tag=toolkit-stubs --force"
+        ]
+    },
     "require": {},
     "license": "MIT"
 }
