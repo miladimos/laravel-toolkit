@@ -11,8 +11,8 @@ class MakeHelperCommand extends Command
 {
 
     protected $signature = "make:helper
-                           { name : helper file name }
-                           { --e|empty? : create empty helper file }
+                           { name=helpers : helper file name }
+                           { --e|empty : create empty helper file }
                            ";
 
     protected $name = 'Helper';

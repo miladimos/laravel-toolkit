@@ -2,6 +2,7 @@
 
 namespace Miladimos\Toolkit;
 
+use Illuminate\Support\Facades\File;
 use Miladimos\Toolkit\Traits\getStubs;
 use Miladimos\Toolkit\Traits\validateModel;
 use Miladimos\Toolkit\Traits\helpersMethods;
@@ -52,6 +53,7 @@ class Toolkit
 
     public static function makeEmptyHelper($modelName)
     {
+        File::put('path', 'content');
 
         if (!file_exists($path = (new self)->getToolkitDefaultNamespace()))
             mkdir($path, 0777, true);

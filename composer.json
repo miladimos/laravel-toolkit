@@ -19,22 +19,19 @@
         {
             "name": "miladimos",
             "email": "message.tome1331@gmail.com",
-            "role": "maintaner",
+            "role": "creator",
             "homepage": "https://github.com/miladimos"
         }
     ],
     "autoload": {
         "psr-4": {
             "Miladimos\\Toolkit\\": "src/"
-        },
-        "files": [
-            "src/Toolkit/helpers.php"
-        ]
+        }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Miladimos\\Toolkit\\ToolkitServiceProvider"
+                "Miladimos\\Toolkit\\Providers\\ToolkitServiceProvider"
             ]
         }
     },

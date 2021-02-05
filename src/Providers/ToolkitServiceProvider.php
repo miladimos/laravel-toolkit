@@ -12,7 +12,7 @@ class ToolkitServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . "/../config/toolkit.php", 'toolkit');
+        $this->mergeConfigFrom(__DIR__ . "/../../config/toolkit.php", 'toolkit');
 
         $this->registerFacades();
     }
@@ -33,10 +33,10 @@ class ToolkitServiceProvider extends ServiceProvider
         });
     }
 
-    private function publishConfig()
+    public function publishConfig()
     {
         $this->publishes([
-            __DIR__ . '/../../config/config.php' => config_path('toolkit.php')
+            __DIR__ . '/../../config/toolkit.php' => config_path('toolkit.php')
         ], 'toolkit-config');
     }
 
@@ -47,6 +47,13 @@ class ToolkitServiceProvider extends ServiceProvider
             InstallPackageCommand::class,
             MakeHelperCommand::class,
         ]);
+    }
+
+    public function publishStubs()
+    {
+        $this->publishes([
+            __DIR__ . '/../Console/Stubs' => resource_path('vendor/miladimos/toolkit/stubs'),
+        ], 'toolkit-stubs');
     }
 
     // protected function registerPublishes()
