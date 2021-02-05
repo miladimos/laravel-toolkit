@@ -4,14 +4,14 @@ namespace Miladimos\Toolkit;
 
 use Illuminate\Support\Facades\File;
 use Miladimos\Toolkit\Traits\GetStubs;
-use Miladimos\Toolkit\Traits\ValidateModel;
+use Miladimos\Toolkit\Traits\ValidateFiles;
 use Miladimos\Toolkit\Traits\HelpersMethods;
 
 class Toolkit
 {
     use GetStubs,
-        HelpersMethods,
-        ValidateModel;
+        HelpersMethods;
+
 
     public static function makeHelper($name)
     {
@@ -31,7 +31,6 @@ class Toolkit
         if (!File::isDirectory($path = (new self)->getHelperDirectory()))
             mkdir($path, 0777, true);
 
-        dd((new self)->ensureHelperDoesntAlreadytExist($name));
 
         $template = (new self)->getEmptyHelperStub();
 
