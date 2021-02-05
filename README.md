@@ -20,3 +20,16 @@ default name is: helpers
 
 if you want create empty helper file use -e|--empty option
 
+##### Register helper methods globally
+
+in composer.php file:
+
+```php
+"autoload": {
+    "files": [
+        "pathToHelperFile.php" // app/Helpers/helpers.php
+    ],
+    ...
+},```
+
+

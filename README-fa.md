@@ -19,3 +19,15 @@
 
 اگر که فایل کمکی خالی میخواهید از 
 -e|--empty استفاده کنید
+
+##### برای ثبت متود ها به صورت سراسری
+
+در فایل composer.php :
+
+```php
+"autoload": {
+    "files": [
+        "pathToHelperFile.php" // app/Helpers/helpers.php
+    ],
+    ...
+},```
