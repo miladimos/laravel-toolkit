@@ -16,14 +16,12 @@ class Toolkit
     public static function makeHelper($name)
     {
 
-        if (!file_exists($path = app_path((new self)->getHelperNamespace())))
+        if (!File::isDirectory($path = (new self)->getHelperDirectory()))
             mkdir($path, 0777, true);
 
-        $template = str_replace(
-            ['{{$name}}', '{{ $namespace }}'],
-            [$name, $namespace],
-            self::getEmptyHelperStub()
-        );
+        $template = (new self)->getHelperStub();
+
+        file_put_contents((new self)->getHelperFilePath($name), $template);
 
         return true;
     }
@@ -32,8 +30,6 @@ class Toolkit
     {
         if (!File::isDirectory($path = (new self)->getHelperDirectory()))
             mkdir($path, 0777, true);
-
-        $helperNamespace = (new self)->getHelperNamespace();
 
         $template = (new self)->getEmptyHelperStub();
 
