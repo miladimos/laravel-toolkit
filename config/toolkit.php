@@ -1,5 +1,7 @@
 <?php
 
+use Miladimos\Toolkit\Models\Bank;
+
 return [
 
     'base_app_namespace' => 'App',
@@ -29,5 +31,9 @@ return [
         'default_file_name' => 'helpers',
     ],
 
+    'banks' => [
+        'ir_banks_table' => 'banks',
+        'ir_banks_model' => Bank::class,
+    ],
 
 ];
