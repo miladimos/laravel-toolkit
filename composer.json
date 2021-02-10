@@ -43,6 +43,14 @@
             "php artisan vendor:publish --provider=Miladimos\\Toolkit\\Providers\\ToolkitServiceProvider --tag=toolkit-stubs --force"
         ]
     },
-    "require": {},
+    "require": {
+        "php": "^7.2.5",
+        "cviebrock/eloquent-sluggable": "^7.0.1",
+        "hekmatinasser/verta": "^1.11.5",
+        "intervention/image": "^2.5.1",
+        "spatie/laravel-permission": "^3.17",
+        "tymon/jwt-auth": "^1.0",
+        "webpatser/laravel-uuid": "^3.0"
+    },
     "license": "MIT"
 }

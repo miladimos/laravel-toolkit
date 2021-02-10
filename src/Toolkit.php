@@ -4,14 +4,12 @@ namespace Miladimos\Toolkit;
 
 use Illuminate\Support\Facades\File;
 use Miladimos\Toolkit\Traits\GetStubs;
-use Miladimos\Toolkit\Traits\ValidateFiles;
 use Miladimos\Toolkit\Traits\HelpersMethods;
 
 class Toolkit
 {
     use GetStubs,
         HelpersMethods;
-
 
     public static function makeHelper($name)
     {
