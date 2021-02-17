@@ -1,10 +1,10 @@
 <?php
 
-namespace Miladimos\Toolkit\Traits;
+namespace App\Traits;
 
 use Illuminate\Support\Str;
 
-trait HasSlug
+trait hasSlug
 {
     public function slug(): string
     {
@@ -28,7 +28,7 @@ trait HasSlug
 
         while ($this->slugExists($slug, $this->exists ? $this->id() : null)) {
             $counter++;
-            $slug = $originalSlug . '-' . $counter;
+            $slug = $originalSlug.'-'.$counter;
         }
 
         return $slug;

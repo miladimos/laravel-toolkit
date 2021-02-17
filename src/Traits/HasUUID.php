@@ -3,10 +3,8 @@
 namespace Miladimos\Toolkit\Traits;
 
 use Webpatser\Uuid\Uuid;
-
-trait HasUUID
+trait hasUUID
 {
-
     protected static function boot()
     {
         parent::boot();

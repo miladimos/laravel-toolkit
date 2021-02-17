@@ -2,7 +2,7 @@
 
 namespace Miladimos\Toolkit\Traits;
 
-trait RouteKeyNameUUID
+trait routeKeyNameUUID
 {
     /**
      * Get the route key for the model.

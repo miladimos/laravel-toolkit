@@ -2,7 +2,7 @@
 
 namespace Miladimos\Toolkit\Traits;
 
-trait GetStubs
+trait getStubs
 {
     protected static function getHelperStub()
     {

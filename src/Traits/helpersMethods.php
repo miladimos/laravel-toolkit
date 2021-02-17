@@ -4,7 +4,7 @@ namespace Miladimos\Toolkit\Traits;
 
 use Illuminate\Support\Str;
 
-trait HelpersMethods
+trait helpersMethods
 {
 
     protected static function getHelperFilePath($file)
