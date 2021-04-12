@@ -2,7 +2,6 @@
 
 namespace Miladimos\Toolkit\Console\Commands;
 
-
 use Exception;
 use Illuminate\Support\Str;
 use Miladimos\Toolkit\Toolkit;

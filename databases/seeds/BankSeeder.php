@@ -3,6 +3,7 @@
 namespace Miladimos\Toolkit\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Miladimos\Toolkit\Models\Bank;
 
 class BankSeeder extends Seeder
 {
@@ -46,7 +47,7 @@ class BankSeeder extends Seeder
 
 
         foreach ($banks as $data) {
-            \App\Models\Bank::create([
+            Bank::create([
                 'id' => $data['id'],
                 'title' => $data['title'],
             ]);

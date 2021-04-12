@@ -3,7 +3,6 @@
 namespace Miladimos\Toolkit\Models;
 
 use Miladimos\Toolkit\Traits\HasUUID;
-use App\Scope\ActiveScope;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,7 +24,6 @@ class Bank extends Model
     // {
     //     static::addGlobalScope(new ActiveScope());
     // }
-
 
     /**
      * Get the route key for the model.
