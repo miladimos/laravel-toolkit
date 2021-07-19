@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Faker\Factory;
+use Faker\Generator;
+use Illuminate\Support\HtmlString;
 
 
 // Start Users / Auth Helpers
@@ -15,9 +18,9 @@ use Illuminate\Foundation\Http\FormRequest;
 if (!function_exists("getUserIP")) {
     function getUserIP()
     {
-        $client  = @$_SERVER['HTTP_CLIENT_IP'];
-        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-        $remote  = $_SERVER['REMOTE_ADDR'];
+        $client = $_SERVER['HTTP_CLIENT_IP'];
+        $forward = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        $remote = $_SERVER['REMOTE_ADDR'];
 
         if (filter_var($client, FILTER_VALIDATE_IP)) {
             $ip = $client;
@@ -31,9 +34,8 @@ if (!function_exists("getUserIP")) {
     }
 }
 
-
 if (!function_exists('is_user_online')) {
-    function is_user_online($user_id)
+    function is_user_online($user_id): bool
     {
         if (cache()->has('user-is-online-' . $user_id))
             return true;
@@ -42,48 +44,27 @@ if (!function_exists('is_user_online')) {
     }
 }
 
-use App\Models\Image;
-use App\Models\User;
-use App\Services\Schema\Schema;
-use Faker\Factory;
-use Faker\Generator;
-use Illuminate\Support\HtmlString;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
-function svg($filename): HtmlString
-{
-    return new HtmlString(
-        file_get_contents(resource_path("svg/{$filename}.svg"))
-    );
+if (!function_exists('svg')) {
+    function svg($filename): HtmlString
+    {
+        return new HtmlString(
+            file_get_contents(resource_path("svg/{$filename}.svg"))
+        );
+    }
 }
 
-function image(string $path): ?Media
-{
-    $image = Image::findByPath($path);
-
-    try {
-        if (! $image) {
-            $image = Image::createWithPath($path);
+if (!function_exists('is_office_open')) {
+    function is_office_open(): bool
+    {
+        if (!now()->isWeekday()) {
+            return false;
         }
 
-        return optional($image)->getFirstMedia();
-    } catch (Exception $exception) {
-        report($exception);
+        $startTime = now()->hour(9)->minute(0);
+        $endTime = now()->hour(17)->minute(30);
 
-        return null;
+        return now()->between($startTime, $endTime);
     }
-}
-
-function is_office_open(): bool
-{
-    if (! now()->isWeekday()) {
-        return false;
-    }
-
-    $startTime = now()->hour(9)->minute(0);
-    $endTime = now()->hour(17)->minute(30);
-
-    return now()->between($startTime, $endTime);
 }
 
 function gravatar_img(string $name): HtmlString
@@ -93,46 +74,21 @@ function gravatar_img(string $name): HtmlString
     return new HtmlString('<img src="https://gravatar.com/avatar/' . $gravatarId . '?s=240">');
 }
 
-function faker(): Generator
-{
-    return Factory::create();
-}
-
 function mailto(string $subject, string $body): string
 {
     $subject = rawurlencode(htmlspecialchars_decode($subject));
 
     $body = rawurlencode(htmlspecialchars_decode($body));
 
-    return "mailto:info@spatie.be?subject={$subject}&body={$body}" ;
+    return "mailto:info@spatie.be?subject={$subject}&body={$body}";
 }
-
-function schema(): Schema
-{
-    return app(Schema::class);
-}
-
 
 function formatBytes($size, $precision = 2)
 {
-    $base = log((float) $size, 1024);
+    $base = log((float)$size, 1024);
     $suffixes = ['', 'K', 'M', 'G', 'T'];
 
-    return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
-}
-
-function sponsorIsViewingPage(): bool
-{
-    if (! auth()->user()) {
-        return false;
-    }
-
-    return auth()->user()->isSponsoring();
-}
-
-function current_user(): ?User
-{
-    return auth()->user();
+    return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
 }
 
 if (!function_exists('user')) {
@@ -173,11 +129,7 @@ if (!function_exists('email')) {
  */
 function userIsLogged($guard = 'web'): bool
 {
-    if (Auth::guard($guard)->guest()) {
-        return false;
-    }
-
-    return true;
+    return Auth::guard($guard)->guest();
 }
 
 
@@ -208,22 +160,22 @@ if (!function_exists("convertToWestern")) {
     {
         $eastern = ["۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹", "۰"];
         $western = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
-        return str_replace($eastern, $western,  $string);
+        return str_replace($eastern, $western, $string);
     }
 }
 
 
 if (!function_exists("createOPTCode")) {
-    function createOPTCode()
+    function createOTPCode()
     {
         return random_int(100000, 999999);
     }
 }
 
 if (!function_exists("createEmailToken")) {
-    function createEmailToken()
+    function createEmailToken($length = 60)
     {
-        return Str::random(60);
+        return Str::random($length);
     }
 }
 
@@ -242,6 +194,20 @@ if (!function_exists('generateToken')) {
     }
 }
 
+if (!function_exists('generateTicketCode')) {
+    function generateTicketCode()
+    {
+        $digits = array_merge(range(0, 9), range(0, 9), range(0, 9));
+        $sChars = range('a', 'z');
+        $cChars = range('A', 'Z');
+        $chars = array_merge($digits, $sChars, $cChars);
+        $arrToStr = implode("", $chars);
+        $shuf = str_shuffle($arrToStr);
+        $code = substr($shuf, 0, 8);
+        return $code;
+    }
+}
+
 if (!function_exists('decodeBase64File')) {
     function decodeBase64File($encodedFile)
     {
@@ -256,21 +222,13 @@ if (!function_exists('decodeBase64File')) {
 
         return [
             'file' => $decodedFile, // فایل آماده برای ذخیره سازی در دیسک
-            'mime'  => $fileMimeType, // نوع فایل
-            'ext'   => $fileExt, // اکستنشن فایل
-            'size'  => (int)strlen($decodedFile) // حجم فایل با واحد بایت
+            'mime' => $fileMimeType, // نوع فایل
+            'ext' => $fileExt, // اکستنشن فایل
+            'size' => (int)strlen($decodedFile) // حجم فایل با واحد بایت
         ];
     }
 }
 
-/**
- * Helpers to Validate some data with laravel validator.
- *
- * @param string|array $fields
- * @param string|array $rules
- *
- * @return bool
- */
 function validate($fields, $rules): bool
 {
     if (!is_array($fields)) {
@@ -315,11 +273,6 @@ function queries($last = false, $dbConnectionName = '')
     return $queries;
 }
 
-/**
- * Echo log of database queries
- *
- * @return string
- */
 function query_table(): string
 {
     $queries = queries();
@@ -331,16 +284,6 @@ function query_table(): string
     return $html . '</table>';
 }
 
-/**
- * Replaces any parameter placeholders in a query with the value of that
- * parameter. Useful for debugging. Assumes anonymous parameters from
- * $params are are in the same order as specified in $query
- * @author glendemon
- *
- * @param string $query The sql query with parameter placeholders
- * @param array $params The array of substitution parameters
- * @return string The interpolated query
- */
 function query_interpolate($query, $params)
 {
     $keys = array();
@@ -372,16 +315,16 @@ if (!function_exists('humanFilesize')) {
         return function ($value, $precision = 1): string {
             if ($value >= 1000000000000) {
                 $value = round($value / (1024 * 1024 * 1024 * 1024), $precision);
-                $unit  = 'TB';
+                $unit = 'TB';
             } elseif ($value >= 1000000000) {
                 $value = round($value / (1024 * 1024 * 1024), $precision);
-                $unit  = 'GB';
+                $unit = 'GB';
             } elseif ($value >= 1000000) {
                 $value = round($value / (1024 * 1024), $precision);
-                $unit  = 'MB';
+                $unit = 'MB';
             } elseif ($value >= 1000) {
                 $value = round($value / (1024), $precision);
-                $unit  = 'KB';
+                $unit = 'KB';
             } else {
                 $unit = 'Bytes';
                 return number_format($value) . ' ' . $unit;
@@ -403,6 +346,15 @@ if (!function_exists('url')) {
 
             return $value;
         };
+    }
+}
+
+// Faker helpers
+
+if (!function_exists('faker')) {
+    function faker($locale = "en"): Generator
+    {
+        return Factory::create($locale);
     }
 }
 
