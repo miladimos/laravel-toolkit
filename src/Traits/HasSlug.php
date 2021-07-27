@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Support\Str;
 
-trait hasSlug
+trait HasSlug
 {
     public function slug(): string
     {

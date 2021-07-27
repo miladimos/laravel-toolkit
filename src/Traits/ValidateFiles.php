@@ -3,7 +3,7 @@
 namespace Miladimos\Toolkit\Traits;
 
 
-trait validateFiles
+trait ValidateFiles
 {
 
     protected function ensureHelperDoesntAlreadytExist($file)

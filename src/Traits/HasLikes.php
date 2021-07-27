@@ -6,7 +6,7 @@ use App\Models\Like;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-trait hasLikes
+trait HasLikes
 {
     //
     protected static function bootHasLikes()

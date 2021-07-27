@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait hasJWT
+trait HasJWT
 {
     public function getJWTIdentifier(): int
     {

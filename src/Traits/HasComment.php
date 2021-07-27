@@ -5,9 +5,8 @@ namespace App\Traits;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-trait hasComment
+trait HasComment
 {
-
     public function comments()
     {
         return $this->commentsRelation;

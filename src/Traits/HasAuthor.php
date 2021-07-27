@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\User;
 
-trait hasAuthor
+trait HasAuthor
 {
     public function author(): User
     {

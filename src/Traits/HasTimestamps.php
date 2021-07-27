@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use Carbon\Carbon;
 
-trait hasTimestamps
+trait HasTimestamps
 {
     public function createdAt(): Carbon
     {

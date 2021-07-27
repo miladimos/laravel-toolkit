@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Contracts\Pagination\Paginator;
 
-trait hasPaginator
+trait HasPaginator
 {
     public static function findAllPaginated(int $perPage = 20): Paginator
     {

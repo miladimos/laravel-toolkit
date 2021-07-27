@@ -3,14 +3,15 @@
 namespace Miladimos\Toolkit\Traits;
 
 use Webpatser\Uuid\Uuid;
-trait hasUUID
+
+trait HasUUID
 {
     protected static function boot()
     {
         parent::boot();
 
         self::creating(function ($model) {
-            $model->uuid = (string) Uuid::generate(4);
+            $model->uuid = (string)Uuid::generate(4);
         });
     }
 }

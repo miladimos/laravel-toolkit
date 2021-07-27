@@ -5,7 +5,7 @@ namespace App\Traits;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-trait hasTags
+trait HasTags
 {
     public function tags()
     {
