@@ -7,29 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Bank extends Model
+class IrBank extends Model
 {
     use Sluggable,
         HasUUID,
         SoftDeletes;
 
-    protected $table = 'banks';
+    protected $table = 'ir_banks';
 
-    // protected $fillable = ['title'];
+    // protected $fillable = ['title', 'type', 'slug', 'uuid'];
 
     protected $guarded = [];
 
 
-    // public static function booted()
-    // {
-    //     static::addGlobalScope(new ActiveScope());
-    // }
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
     public function getRouteKeyName()
     {
         return 'uuid';
