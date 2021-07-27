@@ -4,15 +4,16 @@ namespace Miladimos\Toolkit\Traits;
 
 use Illuminate\Support\Str;
 
-trait helpersMethods
+trait HelpersMethods
 {
 
     protected static function getHelperFilePath($file)
     {
         $helperNamespace = config('toolkit.helpers.namespace') ?? 'Helpers';
 
-        return app_path($helperNamespace . '\\' . $file . '.php');
+        return app_path($helperNamespace . DIRECTORY_SEPARATOR . $file . '.php');
     }
+
 
     protected static function getHelperNamespace($full = true)
     {
@@ -20,10 +21,10 @@ trait helpersMethods
         $helperNamespace = config('toolkit.helpers.namespace') ?? 'Helpers';
 
         if ($full)
-            return $appNamespace . '\\' . $helperNamespace . ';';
+            return $appNamespace . DIRECTORY_SEPARATOR . $helperNamespace . ';';
 
 
-        return $appNamespace . '\\' . $helperNamespace;
+        return $appNamespace . DIRECTORY_SEPARATOR . $helperNamespace;
     }
 
     protected static function getHelperDirectory()
