@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
-trait apiResponder
+trait ApiResponder
 {
-    protected function responseSuccess($data, $statusCode = 200,  $statusMessage = "Ok")
+    protected function responseSuccess($data, $statusCode = 200, $statusMessage = "Ok")
     {
         return response()->json([
             'success' => true,

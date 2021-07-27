@@ -67,28 +67,37 @@ if (!function_exists('is_office_open')) {
     }
 }
 
-function gravatar_img(string $name): HtmlString
-{
-    $gravatarId = md5(strtolower(trim($name)));
+if (!function_exists('gravatar_img')) {
 
-    return new HtmlString('<img src="https://gravatar.com/avatar/' . $gravatarId . '?s=240">');
+    function gravatar_img(string $name, int $size = 240): HtmlString
+    {
+        $gravatarId = md5(strtolower(trim($name)));
+
+        return new HtmlString('<img src="https://gravatar.com/avatar/' . $gravatarId . '?s= ' . $size . '>');
+    }
 }
 
-function mailto(string $subject, string $body): string
-{
-    $subject = rawurlencode(htmlspecialchars_decode($subject));
+if (!function_exists('mailto')) {
 
-    $body = rawurlencode(htmlspecialchars_decode($body));
+    function mailto(string $subject, string $body): string
+    {
+        $subject = rawurlencode(htmlspecialchars_decode($subject));
 
-    return "mailto:info@spatie.be?subject={$subject}&body={$body}";
+        $body = rawurlencode(htmlspecialchars_decode($body));
+
+        return "mailto:info@spatie.be?subject={$subject}&body={$body}";
+    }
 }
 
-function formatBytes($size, $precision = 2)
-{
-    $base = log((float)$size, 1024);
-    $suffixes = ['', 'K', 'M', 'G', 'T'];
+if (!function_exists('formatBytes')) {
 
-    return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
+    function formatBytes($size, $precision = 2)
+    {
+        $base = log((float)$size, 1024);
+        $suffixes = ['', 'K', 'M', 'G', 'T'];
+
+        return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
+    }
 }
 
 if (!function_exists('user')) {
@@ -124,20 +133,18 @@ if (!function_exists('email')) {
 }
 
 /**
- * Return true if current user is logged, otherwise return false.
+ * Return true if current user is guest, otherwise return false.
  * @return bool
  */
-function userIsLogged($guard = 'web'): bool
-{
-    return Auth::guard($guard)->guest();
+if (!function_exists('isGuest')) {
+    function isGuest($guard = 'web'): bool
+    {
+        return Auth::guard($guard)->guest();
+    }
 }
 
-
-// End Users / Auth Helpers
-
-
-if (!function_exists("isActive")) {
-    function isActive($key, $class = 'active')
+if (!function_exists("isActiveMenu")) {
+    function isActiveMenu($key, $class = 'active')
     {
         if (is_array($key)) {
             return in_array(Route::currentRouteName(), $key) ? $class : '';
@@ -164,7 +171,6 @@ if (!function_exists("convertToWestern")) {
     }
 }
 
-
 if (!function_exists("createOPTCode")) {
     function createOTPCode()
     {
@@ -178,7 +184,6 @@ if (!function_exists("createEmailToken")) {
         return Str::random($length);
     }
 }
-
 
 if (!function_exists('generateToken')) {
     function generateToken()
@@ -229,17 +234,19 @@ if (!function_exists('decodeBase64File')) {
     }
 }
 
-function validate($fields, $rules): bool
-{
-    if (!is_array($fields)) {
-        $fields = ['default' => $fields];
-    }
+if (!function_exists('validate')) {
+    function validate($fields, $rules): bool
+    {
+        if (!is_array($fields)) {
+            $fields = ['default' => $fields];
+        }
 
-    if (!is_array($rules)) {
-        $rules = ['default' => $rules];
-    }
+        if (!is_array($rules)) {
+            $rules = ['default' => $rules];
+        }
 
-    return Validator::make($fields, $rules)->passes();
+        return Validator::make($fields, $rules)->passes();
+    }
 }
 
 if (!function_exists('locale')) {
@@ -254,59 +261,67 @@ if (!function_exists('locale')) {
     }
 }
 
+if (!function_exists('queries')) {
 
-function queries($last = false, $dbConnectionName = '')
-{
-    if ($dbConnectionName != '') {
-        $queries = DB::connection($dbConnectionName)->getQueryLog();
-    } else {
-        $queries = DB::getQueryLog();
-    }
-
-    foreach ($queries as &$query) {
-        $query['look'] = query_interpolate($query['query'], $query['bindings']);
-    }
-
-    if ($last) {
-        return end($queries);
-    }
-    return $queries;
-}
-
-function query_table(): string
-{
-    $queries = queries();
-    $html = '<table style="background-color: #FFFF00;border: 1px solid #000000;color: #000000;padding-left: 10px;padding-right: 10px;width: 100%;">';
-    foreach ($queries as $query) {
-        $html .= '<tr style="border-top: 1px dashed #000000;"><td style="padding:8px;">' . e($query['look']) . '</td><td style="padding:8px;">' . e($query['time']) . '</td></tr>';
-    }
-
-    return $html . '</table>';
-}
-
-function query_interpolate($query, $params)
-{
-    $keys = array();
-    $values = $params;
-    foreach ($params as $key => $value) {
-        if (is_string($key)) {
-            $keys[] = '/:' . $key . '/';
+    function queries($last = false, $dbConnectionName = '')
+    {
+        if ($dbConnectionName != '') {
+            $queries = DB::connection($dbConnectionName)->getQueryLog();
         } else {
-            $keys[] = '/[?]/';
+            $queries = DB::getQueryLog();
         }
-        if (is_array($value)) {
-            $values[$key] = implode(',', $value);
+
+        foreach ($queries as &$query) {
+            $query['look'] = query_interpolate($query['query'], $query['bindings']);
         }
-        if (is_null($value)) {
-            $values[$key] = 'NULL';
+
+        if ($last) {
+            return end($queries);
         }
+        return $queries;
     }
-    // Walk the array to see if we can add single-quotes to strings
-    array_walk($values, function (&$v) {
-        if (!is_numeric($v) && $v != "NULL") $v = "'" . $v . "'";
-    });
-    $query = preg_replace($keys, $values, $query, 1, $count);
-    return $query;
+}
+
+if (!function_exists('query_table')) {
+
+    function query_table(): string
+    {
+        $queries = queries();
+        $html = '<table style="background-color: #FFFF00;border: 1px solid #000000;color: #000000;padding-left: 10px;padding-right: 10px;width: 100%;">';
+        foreach ($queries as $query) {
+            $html .= '<tr style="border-top: 1px dashed #000000;"><td style="padding:8px;">' . e($query['look']) . '</td><td style="padding:8px;">' . e($query['time']) . '</td></tr>';
+        }
+
+        return $html . '</table>';
+    }
+}
+
+if (!function_exists('query_interpolate')) {
+
+    function query_interpolate($query, $params)
+    {
+        $keys = array();
+        $values = $params;
+        foreach ($params as $key => $value) {
+            if (is_string($key)) {
+                $keys[] = '/:' . $key . '/';
+            } else {
+                $keys[] = '/[?]/';
+            }
+            if (is_array($value)) {
+                $values[$key] = implode(',', $value);
+            }
+            if (is_null($value)) {
+                $values[$key] = 'NULL';
+            }
+        }
+        // Walk the array to see if we can add single-quotes to strings
+        array_walk($values, function (&$v) {
+            if (!is_numeric($v) && $v != "NULL") $v = "'" . $v . "'";
+        });
+        $query = preg_replace($keys, $values, $query, 1, $count);
+        return $query;
+    }
 }
 
 if (!function_exists('humanFilesize')) {
@@ -349,81 +364,9 @@ if (!function_exists('url')) {
     }
 }
 
-// Faker helpers
-
 if (!function_exists('faker')) {
     function faker($locale = "en"): Generator
     {
         return Factory::create($locale);
-    }
-}
-
-
-class ImageRequest extends FormRequest
-{
-    use ConvertsBase64ToFiles;
-
-    protected function base64FileKeys(): array
-    {
-        return [
-            'jpg_image' => 'Logo.jpg',
-        ];
-    }
-
-    public function rules()
-    {
-        return [
-            'jpg_image' => ['required', 'file', 'image'],
-        ];
-    }
-}
-
-
-trait ConvertsBase64ToFiles
-{
-    protected function base64FileKeys(): array
-    {
-        return [];
-    }
-
-    /**
-     * Pulls the Base64 contents for each image key and creates
-     * an UploadedFile instance from it and sets it on the
-     * request.
-     *
-     * @return void
-     */
-    function prepareForValidation()
-    {
-        Collection::make($this->base64FileKeys())->each(function ($filename, $key) {
-            rescue(function () use ($key, $filename) {
-                $base64Contents = $this->input($key);
-
-                if (!$base64Contents) {
-                    return;
-                }
-
-                // Generate a temporary path to store the Base64 contents
-                $tempFilePath = tempnam(sys_get_temp_dir(), $filename);
-
-                // Store the contents using a stream, or by decoding manually
-                if (Str::startsWith($base64Contents, 'data:') && count(explode(',', $base64Contents)) > 1) {
-                    $source = fopen($base64Contents, 'r');
-                    $destination = fopen($tempFilePath, 'w');
-
-                    stream_copy_to_stream($source, $destination);
-
-                    fclose($source);
-                    fclose($destination);
-                } else {
-                    file_put_contents($tempFilePath, base64_decode($base64Contents, true));
-                }
-
-                $uploadedFile = new UploadedFile($tempFilePath, $filename, null, null, true);
-
-                $this->request->remove($key);
-                $this->files->set($key, $uploadedFile);
-            }, null, false);
-        });
     }
 }

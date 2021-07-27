@@ -1,8 +1,7 @@
 <?php
 
 if (!function_exists("method")) {
-    function method()
-    {
+    function method() {
        //
     }
 }

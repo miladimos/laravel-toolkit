@@ -103,8 +103,6 @@ class MakeHelperCommand extends Command
             $this->error($exception);
             die;
         }
-
-        return 0;
     }
 
 }

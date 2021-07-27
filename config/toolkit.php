@@ -1,7 +1,5 @@
 <?php
 
-use Miladimos\Toolkit\Models\Bank;
-
 return [
 
     'base_app_namespace' => 'App',

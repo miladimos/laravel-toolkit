@@ -15,7 +15,6 @@ class InstallPackageCommand extends Command
 
     protected $description = 'Simply Install laravel-toolkit Package';
 
-
     public function handle()
     {
         $this->info("Toolkit Package installing started...");
@@ -59,7 +58,6 @@ class InstallPackageCommand extends Command
 
         return 0;
     }
-
 
     private function publishConfig()
     {
