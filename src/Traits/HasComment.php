@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace Miladimos\Toolkit\Traits;
 
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Relations\MorphMany;

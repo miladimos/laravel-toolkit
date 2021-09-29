@@ -18,7 +18,7 @@
     "authors": [
         {
             "name": "miladimos",
-            "email": "message.tome1331@gmail.com",
+            "email": "miladimos@outlook.com",
             "role": "creator",
             "homepage": "https://github.com/miladimos"
         }
@@ -42,8 +42,7 @@
         "php": "^7.4",
         "illuminate/support": "^7|^8",
         "hekmatinasser/verta": "^1.11.5",
-        "intervention/image": "^2.5.1",
-        "spatie/laravel-permission": "^3.17",
+        "intervention/image": "^2.5",
         "tymon/jwt-auth": "^1.0",
         "webpatser/laravel-uuid": "^3.0"
     },

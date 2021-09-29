@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace Miladimos\Toolkit\Traits;
 
 use Illuminate\Support\Str;
 
