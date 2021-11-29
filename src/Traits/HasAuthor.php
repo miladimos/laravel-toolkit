@@ -2,13 +2,12 @@
 
 namespace Miladimos\Toolkit\Traits;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait HasAuthor
 {
-    public function author(): User
+    public function author()
     {
         return $this->authorRelation;
     }
@@ -23,8 +22,8 @@ trait HasAuthor
         $this->authorRelation()->associate($author);
     }
 
-    public function isAuthoredBy(User $user): bool
+    public function isAuthoredBy(User $author): bool
     {
-        return $this->author()->matches($user);
+        return $this->author()->matches($author);
     }
 }

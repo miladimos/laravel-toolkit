@@ -6,18 +6,18 @@ use Carbon\Carbon;
 
 trait HasTimestamps
 {
-    public function createdAt(): Carbon
+    public function createdAt($format = null): Carbon
     {
-        return $this->created_at;
+        return $format ? $this->created_at : Carbon::parse($this->created_at)->format($format);
     }
 
-    public function updatedAt(): Carbon
+    public function updatedAt($format = null): Carbon
     {
-        return $this->updated_at;
+        return $format ? $this->updated_at : Carbon::parse($this->updated_at)->format($format);
     }
 
-    public function deletedAt(): Carbon
+    public function deletedAt($format = null): Carbon
     {
-        return $this->deleted_at;
+        return $format ? $this->deleted_at : Carbon::parse($this->deleted_at)->format($format);
     }
 }

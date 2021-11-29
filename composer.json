@@ -41,9 +41,8 @@
     "require": {
         "php": "^7.4|^8.0",
         "illuminate/support": "^7|^8",
-        "hekmatinasser/verta": "^1.11.5",
-        "intervention/image": "^2.5",
-        "tymon/jwt-auth": "^1.0",
+        "hekmatinasser/verta": "^1.12",
+        "intervention/image": "^2.7",
         "webpatser/laravel-uuid": "^4.0"
     },
     "scripts": {

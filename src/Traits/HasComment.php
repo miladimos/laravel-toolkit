@@ -17,17 +17,14 @@ trait HasComment
         return $this->morphMany(Comment::class, 'commentable', 'commentables')->withTimestamps();
     }
 
-    // /**
-    //  * @param \App\Models\Comment[]|int[] $comments
-    //  */
-    // public function syncComments(array $comments)
-    // {
-    //     $this->save();
-    //     $this->commentsRelation()->sync($comments);
-    // }
+    public function syncComments(array $comments)
+    {
+        $this->commentsRelation()->sync($comments);
+        $this->save();
+    }
 
-    // public function removeComments()
-    // {
-    //     $this->commentsRelation()->detach();
-    // }
+    public function removeComments()
+    {
+        $this->commentsRelation()->detach();
+    }
 }

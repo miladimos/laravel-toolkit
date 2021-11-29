@@ -28,4 +28,6 @@ return [
         */
         'default_file_name' => 'helpers',
     ],
+
+    'author_model' => \App\Models\User::class,
 ];

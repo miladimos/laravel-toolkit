@@ -49,7 +49,7 @@ class MakeHelperCommand extends Command
 
             if ($this->option('empty')) {
 
-                if ((new self)->ensureHelperDoesntAlreadytExist($this->fileName)) {
+                if ((new self)->ensureHelperDoesntAlreadyExist($this->fileName)) {
                     $msg = (new self)->getHelperFilePath($this->fileName) . " already exist. you must overwrite it! Are you ok?";
 
                     $confirm = $this->confirm($msg);
@@ -75,7 +75,7 @@ class MakeHelperCommand extends Command
                 }
             }
 
-            if ((new self)->ensureHelperDoesntAlreadytExist($this->fileName)) {
+            if ((new self)->ensureHelperDoesntAlreadyExist($this->fileName)) {
                 $msg = (new self)->getHelperFilePath($this->fileName) . " already exist. you must overwrite it! Are you ok?";
 
                 $confirm = $this->confirm($msg);

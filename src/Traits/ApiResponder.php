@@ -2,6 +2,9 @@
 
 namespace Miladimos\Toolkit\Traits;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 trait ApiResponder
 {
     protected function responseSuccess($data, $statusCode = 200, $statusMessage = "Ok")
