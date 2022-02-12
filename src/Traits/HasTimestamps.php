@@ -20,4 +20,6 @@ trait HasTimestamps
     {
         return $format ? $this->deleted_at : Carbon::parse($this->deleted_at)->format($format);
     }
+
+
 }
