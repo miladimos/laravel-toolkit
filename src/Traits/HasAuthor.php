@@ -9,7 +9,7 @@ trait HasAuthor
 {
     public function author()
     {
-        return $this->authorRelation;
+        return $this->authorRelation();
     }
 
     public function authorRelation(): BelongsTo

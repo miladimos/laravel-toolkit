@@ -9,22 +9,26 @@ trait HasTags
 {
     public function tags()
     {
-        return $this->tagsRelation;
+        return $this->tagsRelation();
     }
 
     public function tagsRelation(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable', 'taggables')->withTimestamps();
+        return $this->morphToMany(Tag::class, 'taggable', 'taggables');
     }
 
     public function syncTags(array $tags)
     {
-        $this->save();
         $this->tagsRelation()->sync($tags);
     }
 
-    public function removeTags()
+    public function removeTags(array $tags)
     {
-        $this->tagsRelation()->detach();
+        $this->tagsRelation()->detach($tags);
+    }
+
+    public function tagCount(): int
+    {
+        return $this->tags()->count();
     }
 }

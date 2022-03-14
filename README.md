@@ -34,14 +34,23 @@ in composer.php file:
 ```
 
 #### Helper Traits
+
 ``Miladimos\Toolkit\Traits\RouteKeyNameUUID``
+
 ``Miladimos\Toolkit\Traits\HasUUID``
+
 ``Miladimos\Toolkit\Traits\HasTimestamps``
+
 ``Miladimos\Toolkit\Traits\HasTags``
+
 ``Miladimos\Toolkit\Traits\HasJWT``
+
 ``Miladimos\Toolkit\Traits\HasAuthor``
+
 ``Miladimos\Toolkit\Traits\HasComment``
+
 ``Miladimos\Toolkit\Traits\GetConstantsEnum``
+
 ``Miladimos\Toolkit\Traits\ApiResponder``
 
 

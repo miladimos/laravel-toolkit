@@ -14,7 +14,7 @@ class CreateIrBanksTable extends Migration
             $table->uuid('uuid')->index();
             $table->string('title')->unique();
             $table->string('slug')->unique();
-            $table->text('icon')->nullable();
+            $table->text('logo')->nullable();
             $table->char('type')->nullable();
             $table->softDeletes();
             $table->timestamps();

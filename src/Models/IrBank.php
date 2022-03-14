@@ -19,12 +19,6 @@ class IrBank extends Model
 
     protected $guarded = [];
 
-
-    public function getRouteKeyName()
-    {
-        return 'uuid';
-    }
-
     public function sluggable(): array
     {
         return [

@@ -9,7 +9,7 @@ trait HasComment
 {
     public function comments()
     {
-        return $this->commentsRelation;
+        return $this->commentsRelation();
     }
 
     public function commentsRelation(): MorphMany
@@ -20,11 +20,15 @@ trait HasComment
     public function syncComments(array $comments)
     {
         $this->commentsRelation()->sync($comments);
-        $this->save();
     }
 
-    public function removeComments()
+    public function removeComments(array $comments)
     {
-        $this->commentsRelation()->detach();
+        $this->commentsRelation()->detach($comments);
+    }
+
+    public function commentCount(): int
+    {
+        return $this->comments()->count();
     }
 }
