@@ -1,5 +1,6 @@
 <?php
 
+// config file for miladimos/laravel-toolkit
 return [
 
     'base_app_namespace' => 'App',

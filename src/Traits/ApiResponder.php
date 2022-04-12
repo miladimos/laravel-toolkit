@@ -7,24 +7,24 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 trait ApiResponder
 {
-    protected function responseSuccess($data, $statusCode = 200, $statusMessage = "Ok")
+    protected function responseSuccess($data, $statusCode = 200, $statusMessage = "Ok", array $headers = []): JsonResponse
     {
         return response()->json([
             'success' => true,
             'status_code' => $statusCode,
             'status_message' => $statusMessage,
             'data' => $data,
-        ], $statusCode);
+        ], $statusCode, $headers);
     }
 
-    protected function responseError($data, $statusCode = 500, $statusMessage = "Error")
+    protected function responseError($data, $statusCode = 500, $statusMessage = "Error", array $headers = []): JsonResponse
     {
         return response()->json([
             'success' => false,
             'status_code' => $statusCode,
             'status_message' => $statusMessage,
             'data' => $data,
-        ], $statusCode);
+        ], $statusCode, $headers);
     }
 
     /**
