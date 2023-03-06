@@ -40,9 +40,9 @@
     },
     "require": {
         "php": "^7.4|^8.0",
-        "hekmatinasser/verta": "^1.12",
-        "intervention/image": "^2.7",
-        "webpatser/laravel-uuid": "^4.0"
+        "hekmatinasser/verta": "*",
+        "intervention/image": "*,
+        "webpatser/laravel-uuid": "*"
     },
     "scripts": {
         "post-package-install": [
